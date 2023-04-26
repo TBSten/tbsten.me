@@ -3,6 +3,10 @@ import { dummyArticles } from "@/article/dummy";
 import { Article } from "@/article/type";
 import Center from "@/components/Center";
 import FadeScale, { FadeScaleProps } from "@/components/animation/FadeScale";
+import AndroidIcon from "@/components/icon/AndroidIcon";
+import QiitaIcon from "@/components/icon/QiitaIcon";
+import WebIcon from "@/components/icon/WebIcon";
+import ZennIcon from "@/components/icon/ZennIcon";
 import Footer from "@/components/layout/Footer";
 import LayoutContent, { LayoutContentProps } from "@/components/layout/LayoutContent";
 import PopupMenu from "@/components/layout/PopupMenu";
@@ -201,12 +205,29 @@ const ArticlesSection: FC<ArticlesSectionProps> = ({ articles }) => {
           </Link>
         )}
         <div className="w-52 text-center flex-shrink-0 flex-grow-0">
-          <a href="/articles" className="min-w-fit btn btn-ghost mx-2 overscroll-contain">
+          <Link href="/articles" className="min-w-fit btn btn-ghost mx-2 overscroll-contain">
             ▶︎ MORE ▶︎
-          </a>
+          </Link>
         </div>
       </div>
-      {/* TODO ジャンル別リンク (Zenn,Qiitaなど) */}
+      <Center className="grid grid-cols-1 md:grid-cols-2 justify-items-center gap-1">
+        <Link href="/articles/zenn" className="btn btn-outline btn-primary btn-wide">
+          <ZennIcon className="m-1 mr-2 text-xl" />
+          Zenn
+        </Link>
+        <Link href="/articles/qiita" className="btn btn-outline btn-secondary btn-wide">
+          <QiitaIcon className="m-1 mr-2 text-xl" />
+          Qiita
+        </Link>
+        <Link href="/articles/android" className="btn btn-outline btn-secondary btn-wide">
+          <AndroidIcon className="m-1 mr-2 text-xl" />
+          Android
+        </Link>
+        <Link href="/articles/web" className="btn btn-outline btn-primary btn-wide">
+          <WebIcon className="m-1 mr-2 text-xl" />
+          Web
+        </Link>
+      </Center>
     </Section>
   );
 }
