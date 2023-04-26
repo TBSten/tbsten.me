@@ -15,6 +15,8 @@ module.exports = {
         "zenn": "#3ea8ff",
         "qiita": "#55c500",
         "github": "#24292f",
+        "android": "#a1c538",
+        "web": "#efd81b",
       },
       fontWeight: {
         "normal": "400",
