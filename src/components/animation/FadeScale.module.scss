@@ -1,0 +1,49 @@
+.animate-fade-with-scale-x {
+    animation: animate-fade-with-scale-x 0.75s ease 1 normal;
+    animation-fill-mode: forwards;
+}
+
+
+@keyframes animate-fade-with-scale-x {
+    from {
+        opacity: 0;
+        transform: scaleX(2) scaleY(1.2);
+        filter: blur(10px);
+    }
+
+    70%,
+    to {
+        transform: scaleX(1) scaleY(1);
+    }
+
+    to {
+        opacity: 1;
+        filter: blur(0);
+    }
+
+}
+
+.animate-fade-with-scale-y {
+    animation: animate-fade-with-scale-y 0.75s ease 1 normal;
+    animation-fill-mode: forwards;
+}
+
+
+@keyframes animate-fade-with-scale-y {
+    from {
+        opacity: 0;
+        transform: scaleY(2) scaleX(1.2);
+        filter: blur(10px);
+    }
+
+    70%,
+    to {
+        transform: scaleY(1) scaleX(1);
+    }
+
+    to {
+        opacity: 1;
+        filter: blur(0);
+    }
+
+}
