@@ -38,16 +38,20 @@ const Top: NextPage<Props> = () => {
         />
 
         {/* header */}
-        {/* <div className="p-1 sticky top-0 left-0 right-0"> */}
-        <div className="p-1">
+        {/* <div className="p-1">
           <div className="p-0.5 rounded-lg">
             <h1 className="flex justify-center border-primary border-2 rounded-lg text-base-content bg-base-100">
-              <Link href="/" className="text-center w-full h-full normal-case font-dot font-bold text-6xl sm:text-2xl z-30">
+              <Link href="/" className="text-center w-full h-full normal-case font-dot font-bold text-6xl sm:text-2xl">
                 TBSten
               </Link>
             </h1>
           </div>
-        </div>
+        </div> */}
+        <h1 className="w-full flex justify-center text-center my-2">
+          <Link href="/" className="btn btn-primary btn-wide btn-outline text-3xl">
+            TBSten
+          </Link>
+        </h1>
 
         <Hero />
 
@@ -61,9 +65,7 @@ const Top: NextPage<Props> = () => {
 
         <Footer />
 
-        <div className="sticky bottom-0 md:right-1 md:bottom-1 md:w-fit md:fixed ">
-          <PopupMenu />
-        </div>
+        <PopupMenu />
 
       </div>
     </>
@@ -93,7 +95,7 @@ const Hero: FC<HeroProps> = () => {
       <Link href="/">
         <Image
           className={classNames(
-            "rounded-3xl w-full h-auto sm:h-[50vh] sm:w-auto mt-8 border-4 border-primary hover:border-primary-focus",
+            "rounded-3xl w-full h-auto sm:h-[50vh] sm:w-auto mt-8 border-4 border-primary-content",
             styles["animate-icon"]
           )}
           src={TBStenImg}
@@ -114,20 +116,20 @@ const Hero: FC<HeroProps> = () => {
           </div>
           <div className="relative">
             <div className={classNames(
-              "my-1 sm:before:content-['▶︎_'] sm:before:text-primary delay-0",
+              "my-1 sm:before:content-['▶︎'] sm:before:mx-2 sm:before:text-primary delay-0",
             )}>
               プログラミング好きなしがない
               専門学生
             </div>
-            <div className="my-1 sm:before:content-['▶︎_'] sm:before:text-primary delay-100">
+            <div className="my-1 sm:before:content-['▶︎'] sm:before:mx-2 sm:before:text-primary delay-100">
               Android エンジニア
               {" "}
               Lv 0.5
             </div>
-            <div className="my-1 sm:before:content-['▶︎_'] sm:before:text-primary delay-200">
+            <div className="my-1 sm:before:content-['▶︎'] sm:before:mx-2 sm:before:text-primary delay-200">
               技術記事 書き大志
             </div>
-            <div className="my-1 sm:before:content-['▶︎_'] sm:before:text-primary delay-300">
+            <div className="my-1 sm:before:content-['▶︎'] sm:before:mx-2 sm:before:text-primary delay-300">
               挙動が IPAのファン
             </div>
           </div>
@@ -160,18 +162,20 @@ const Section: FC<SectionProps> = ({
   ...props
 }) => {
   return (
-    <FadeScale {...fadeScaleProps}>
-      <LayoutContent className={classNames(
-        "relative ",
-        bg ?? "bg-base-100 bg-opacity-95",
-        m ?? "my-8",
-        { "mr-2 sm:mr-4 md:mr-8": stickTo === "left" },
-        { "ml-2 sm:ml-4 md:ml-8": stickTo === "right" },
-        className,
-      )}  {...props}>
-        {children}
-      </LayoutContent>
-    </FadeScale>
+    <div className="w-full overflow-x-hidden">
+      <FadeScale {...fadeScaleProps}>
+        <LayoutContent className={classNames(
+          "relative w-full",
+          bg ?? "bg-base-100 bg-opacity-95",
+          m ?? "my-8",
+          { "mr-2 sm:mr-4 md:mr-8": stickTo === "left" },
+          { "ml-2 sm:ml-4 md:ml-8": stickTo === "right" },
+          className,
+        )}  {...props}>
+          {children}
+        </LayoutContent>
+      </FadeScale>
+    </div>
   );
 }
 
