@@ -7,6 +7,7 @@ import AndroidIcon from "@/components/icon/AndroidIcon";
 import QiitaIcon from "@/components/icon/QiitaIcon";
 import WebIcon from "@/components/icon/WebIcon";
 import ZennIcon from "@/components/icon/ZennIcon";
+import Container from "@/components/layout/Container";
 import Footer from "@/components/layout/Footer";
 import LayoutContent, { LayoutContentProps } from "@/components/layout/LayoutContent";
 import PopupMenu from "@/components/layout/PopupMenu";
@@ -164,8 +165,8 @@ const Section: FC<SectionProps> = ({
   return (
     <div className="w-full overflow-x-hidden">
       <FadeScale {...fadeScaleProps}>
-        <LayoutContent className={classNames(
-          "relative w-full",
+        <div className={classNames(
+          "relative w-full p-2 md:p-6",
           bg ?? "bg-base-100 bg-opacity-95",
           m ?? "my-8",
           { "mr-2 sm:mr-4 md:mr-8": stickTo === "left" },
@@ -173,7 +174,7 @@ const Section: FC<SectionProps> = ({
           className,
         )}  {...props}>
           {children}
-        </LayoutContent>
+        </div>
       </FadeScale>
     </div>
   );
@@ -189,52 +190,61 @@ const ArticlesSection: FC<ArticlesSectionProps> = ({ articles }) => {
       <h2 className="m-0 mb-6 text-base-content md:text-white">
         ▶︎ 記事
       </h2>
-      <div className="w-full flex flex-nowrap flex-row gap-4 items-center overflow-x-auto px-4">
-        {articles.map(article =>
-          <Link href={article.link} className={classNames(
-            "w-52 bg-base-100 rounded-xl overflow-hidden flex-shrink-0 flex-grow-0 my-4 shadow",
-            "transition-transform duration-500 hover:scale-110 cursor-pointer",
-          )} key={article.link}>
-            <Image
-              className="w-full"
-              src={article.ogImage}
-              alt={article.title}
-              width={208}
-              height={160}
-            />
-            <div className="font-main px-2 py-1">
-              {article.title.substring(0, 25)}
-              {article.title.length >= 25 && "..."}
-            </div>
-          </Link>
-        )}
-        <div className="w-52 text-center flex-shrink-0 flex-grow-0">
-          <Link href="/articles" className="min-w-fit btn btn-ghost mx-2 overscroll-contain">
-            ▶︎ MORE ▶︎
-          </Link>
+      <Container>
+        <div className="w-full flex flex-nowrap flex-row gap-4 items-center overflow-x-auto px-4">
+          {articles.map(article =>
+            <Link href={article.link} className={classNames(
+              "w-52 bg-base-100 rounded-xl overflow-hidden flex-shrink-0 flex-grow-0 my-4 shadow",
+              "transition-transform duration-500 hover:scale-110 cursor-pointer",
+            )} key={article.link}>
+              <Image
+                className="w-full"
+                src={article.ogImage}
+                alt={article.title}
+                width={208}
+                height={160}
+              />
+              <div className="font-main px-2 py-1">
+                {article.title.substring(0, 25)}
+                {article.title.length >= 25 && "..."}
+              </div>
+            </Link>
+          )}
+          <div className="w-52 text-center flex-shrink-0 flex-grow-0">
+            <Link href="/articles" className="min-w-fit btn btn-ghost mx-2 overscroll-contain ">
+              ▶︎ MORE ▶︎
+            </Link>
+          </div>
+          <div className="px-2 text-center flex-shrink-0 flex-grow-0">
+            <Link href="/secret/" className="min-w-fit mx-2 overscroll-contain text-base-100 select-none cursor-default" tabIndex={-1}>
+              ▶︎ GOTO SECRET PAGE ▶︎
+            </Link>
+          </div>
         </div>
-      </div>
-      <Center className="grid grid-cols-1 md:grid-cols-2 justify-items-center gap-1 bg-base-100 py-4">
-        <Link href="/articles/zenn" className="btn btn-outline btn-primary btn-wide">
-          <ZennIcon className="m-1 mr-2 text-xl" />
-          Zenn
-        </Link>
-        <Link href="/articles/qiita" className="btn btn-outline btn-secondary btn-wide">
-          <QiitaIcon className="m-1 mr-2 text-xl" />
-          Qiita
-        </Link>
-        <Link href="/articles/android" className="btn btn-outline btn-secondary btn-wide">
-          <AndroidIcon className="m-1 mr-2 text-xl" />
-          Android
-        </Link>
-        <Link href="/articles/web" className="btn btn-outline btn-primary btn-wide">
-          <WebIcon className="m-1 mr-2 text-xl" />
-          Web
-        </Link>
-        <Link href="/articles" className="btn btn-outline btn-primary btn-wide">
-          All
-        </Link>
-      </Center>
+      </Container>
+      <LayoutContent>
+        <Center className="grid grid-cols-1 md:grid-cols-2 justify-items-center gap-1 bg-base-100 w-full px-4 md:px-12 lg:px-36  py-4">
+          <Link href="/articles/zenn" className="btn btn-outline btn-primary btn-wide">
+            <ZennIcon className="m-1 mr-2 text-xl" />
+            Zenn
+          </Link>
+          <Link href="/articles/qiita" className="btn btn-outline btn-secondary btn-wide">
+            <QiitaIcon className="m-1 mr-2 text-xl" />
+            Qiita
+          </Link>
+          <Link href="/articles/android" className="btn btn-outline btn-secondary btn-wide">
+            <AndroidIcon className="m-1 mr-2 text-xl" />
+            Android
+          </Link>
+          <Link href="/articles/web" className="btn btn-outline btn-primary btn-wide">
+            <WebIcon className="m-1 mr-2 text-xl" />
+            Web
+          </Link>
+          <Link href="/articles" className="btn btn-outline btn-primary btn-wide">
+            All
+          </Link>
+        </Center>
+      </LayoutContent>
     </Section>
   );
 }

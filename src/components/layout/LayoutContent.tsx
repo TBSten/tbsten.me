@@ -8,9 +8,12 @@ const LayoutContent: FC<LayoutContentProps> = ({ className, children, p, ...prop
     return (
         <div className={classNames(
             p ?? "p-2 md:p-4",
+            "flex flex-col items-center",
             className,
         )} {...props}>
-            {children}
+            <div className="max-w-5xl">
+                {children}
+            </div>
         </div>
     );
 }

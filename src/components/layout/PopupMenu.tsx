@@ -4,6 +4,7 @@ import { FC, useState } from "react";
 import { AiOutlineSafetyCertificate } from "react-icons/ai";
 import { BsStarFill } from "react-icons/bs";
 import { MdOutlineArticle } from "react-icons/md";
+import Center from "../Center";
 
 interface PopupMenuProps {
 }
@@ -12,19 +13,19 @@ const PopupMenu: FC<PopupMenuProps> = () => {
     const toggle = () => setOpen(p => !p)
     return (
         <>
-            <div className="fixed left-0 top-0">
+            <button className="fixed left-0 top-0 btn btn-accent btn-lg origin-top-left rounded-l-none rounded-tr-none z-40" onClick={toggle}>
+                MENU
+            </button>
+            <div className="fixed z-50">
                 <div className={classNames(
                     "fixed left-0 top-0 w-screen h-screen bg-black bg-opacity-30 transition-opacity duration-300",
                     open ? "opacity-100 visible" : "opacity-0 invisible",
                 )} onClick={toggle} />
-                <button className="btn btn-accent btn-lg origin-top-left rounded-l-none rounded-tr-none relative z-50" onClick={toggle}>
-                    MENU
-                </button>
                 <ul className={classNames(
-                    "rounded transition-all duration-300 overflow-y-auto w-full relative top-2 left-2 shadow bg-base-100 text-base-content",
-                    open ? "h-screen p-4 opacity-100" : "h-0 p-0 opacity-0",
+                    "fixed left-2 top-2 rounded transition-all h-[calc(100vh-10px)] duration-300 overflow-y-auto  shadow bg-base-100 text-base-content z-40 w-fit",
+                    open ? "opacity-100 py-0 px-4 visible" : "opacity-0 p-0 invisible",
                 )}>
-                    <li className="text-opacity-80 my-2">
+                    <li className="text-opacity-80 pt-4 my-2 sticky top-0 bg-base-100">
                         TBSten
                     </li>
                     <li>
@@ -50,6 +51,14 @@ const PopupMenu: FC<PopupMenuProps> = () => {
                             <AiOutlineSafetyCertificate className="mr-2 text-accent" />
                             資格
                         </Link>
+                    </li>
+                    <div className="divider" />
+                    <li className="sticky bottom-0 bg-base-100 pb-4">
+                        <Center>
+                            <button className="btn btn-ghost w-full" onClick={toggle}>
+                                閉じる
+                            </button>
+                        </Center>
                     </li>
                 </ul>
             </div>

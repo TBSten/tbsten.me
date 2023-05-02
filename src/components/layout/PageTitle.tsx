@@ -6,7 +6,7 @@ interface PageTitleProps {
 }
 const PageTitle: FC<PageTitleProps> = ({ children }) => {
     return (
-        <h1 className="text-4xl md:text-6xl h-[50vh] my-2 md:my-8 font-bold">
+        <h1 className="text-4xl md:text-6xl font-dot mt-16 md:mt-32 mb-14 sm font-bold">
             <Center>
                 {children}
             </Center>
