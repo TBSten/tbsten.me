@@ -1,25 +1,13 @@
 import TBStenImg from "@/../public/tbsten.png";
-import { dummyArticles } from "@/article/dummy";
-import { Article } from "@/article/type";
 import Center from "@/components/Center";
-import FadeScale, { FadeScaleProps } from "@/components/animation/FadeScale";
-import AndroidIcon from "@/components/icon/AndroidIcon";
-import QiitaIcon from "@/components/icon/QiitaIcon";
-import WebIcon from "@/components/icon/WebIcon";
-import ZennIcon from "@/components/icon/ZennIcon";
-import Container from "@/components/layout/Container";
 import Footer from "@/components/layout/Footer";
-import LayoutContent, { LayoutContentProps } from "@/components/layout/LayoutContent";
 import PopupMenu from "@/components/layout/PopupMenu";
-import { dummySkills } from "@/skill/dummy";
-import { Skill } from "@/skill/type";
 import classNames from "classnames";
 import { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { FC, ReactNode } from "react";
-import { BsStarFill } from "react-icons/bs";
+import { FC } from "react";
 import styles from "./index.module.scss";
 
 interface Props {
@@ -55,14 +43,6 @@ const Top: NextPage<Props> = () => {
         </h1>
 
         <Hero />
-
-        <ArticlesSection
-          articles={dummyArticles}
-        />
-
-        <SkillsSection
-          skills={dummySkills}
-        />
 
         <Footer />
 
@@ -144,150 +124,3 @@ const Hero: FC<HeroProps> = () => {
     </div>
   );
 }
-
-interface SectionProps extends LayoutContentProps {
-  bg?: string
-  // disableMargin?: boolean
-  m?: string
-  stickTo?: "left" | "right"
-  fadeScaleProps?: FadeScaleProps
-  children?: ReactNode
-}
-const Section: FC<SectionProps> = ({
-  bg,
-  m,
-  stickTo = "right",
-  className,
-  children,
-  fadeScaleProps = {},
-  ...props
-}) => {
-  return (
-    <div className="w-full overflow-x-hidden">
-      <FadeScale {...fadeScaleProps}>
-        <div className={classNames(
-          "relative w-full p-2 md:p-6",
-          bg ?? "bg-base-100 bg-opacity-95",
-          m ?? "my-8",
-          { "mr-2 sm:mr-4 md:mr-8": stickTo === "left" },
-          { "ml-2 sm:ml-4 md:ml-8": stickTo === "right" },
-          className,
-        )}  {...props}>
-          {children}
-        </div>
-      </FadeScale>
-    </div>
-  );
-}
-
-interface ArticlesSectionProps {
-  articles: Article[]
-}
-const ArticlesSection: FC<ArticlesSectionProps> = ({ articles }) => {
-  return (
-    <Section id="articles" bg="" className="font-dot" fadeScaleProps={{ scaleSize: "y" }}>
-      <div className="bg-base-100 absolute right-0 top-0 w-full md:w-[66%] h-full -z-30 " />
-      <h2 className="m-0 mb-6 text-base-content md:text-white">
-        ▶︎ 記事
-      </h2>
-      <Container>
-        <div className="w-full flex flex-nowrap flex-row gap-4 items-center overflow-x-auto px-4">
-          {articles.map(article =>
-            <Link href={article.link} className={classNames(
-              "w-52 bg-base-100 rounded-xl overflow-hidden flex-shrink-0 flex-grow-0 my-4 shadow",
-              "transition-transform duration-500 hover:scale-110 cursor-pointer",
-            )} key={article.link}>
-              <Image
-                className="w-full"
-                src={article.ogImage}
-                alt={article.title}
-                width={208}
-                height={160}
-              />
-              <div className="font-main px-2 py-1">
-                {article.title.substring(0, 25)}
-                {article.title.length >= 25 && "..."}
-              </div>
-            </Link>
-          )}
-          <div className="w-52 text-center flex-shrink-0 flex-grow-0">
-            <Link href="/articles" className="min-w-fit btn btn-ghost mx-2 overscroll-contain ">
-              ▶︎ MORE ▶︎
-            </Link>
-          </div>
-          <div className="px-2 text-center flex-shrink-0 flex-grow-0">
-            <Link href="/secret/" className="min-w-fit mx-2 overscroll-contain text-base-100 select-none cursor-default" tabIndex={-1}>
-              ▶︎ GOTO SECRET PAGE ▶︎
-            </Link>
-          </div>
-        </div>
-      </Container>
-      <LayoutContent>
-        <Center className="grid grid-cols-1 md:grid-cols-2 justify-items-center gap-1 bg-base-100 w-full px-4 md:px-12 lg:px-36  py-4">
-          <Link href="/articles/zenn" className="btn btn-outline btn-primary btn-wide">
-            <ZennIcon className="m-1 mr-2 text-xl" />
-            Zenn
-          </Link>
-          <Link href="/articles/qiita" className="btn btn-outline btn-secondary btn-wide">
-            <QiitaIcon className="m-1 mr-2 text-xl" />
-            Qiita
-          </Link>
-          <Link href="/articles/android" className="btn btn-outline btn-secondary btn-wide">
-            <AndroidIcon className="m-1 mr-2 text-xl" />
-            Android
-          </Link>
-          <Link href="/articles/web" className="btn btn-outline btn-primary btn-wide">
-            <WebIcon className="m-1 mr-2 text-xl" />
-            Web
-          </Link>
-          <Link href="/articles" className="btn btn-outline btn-primary btn-wide">
-            All
-          </Link>
-        </Center>
-      </LayoutContent>
-    </Section>
-  );
-}
-interface SkillsSectionProps {
-  skills: Skill[]
-}
-const SkillsSection: FC<SkillsSectionProps> = ({ skills }) => {
-  return (
-    <Section id="skills" stickTo="left" fadeScaleProps={{ scaleSize: "x" }}>
-      <h2 className="font-dot mt-2 mb-6">
-        ▶︎ スキル
-      </h2>
-      <div className="flex gap-1 flex-wrap">
-        {skills.map(skill =>
-          <div key={skill.name} className={classNames(
-            skill.interest ? "border-primary " : "border-secondary",
-            "rounded overflow-hidden border flex flex-row items-center flex-nowrap",
-          )}>
-            <div className={classNames(
-              skill.interest ? "bg-primary text-primary-content " : "bg-secondary text-secondary-content ",
-              "flex flex-row items-center px-1",
-            )}>
-              <Image
-                className="w-4 h-4 inline-block rounded-sm mr-0.5"
-                src={skill.icon}
-                alt={skill.name}
-                width={20}
-                height={20}
-              />
-              {skill.name}
-            </div>
-            <div className={classNames(
-              skill.interest ? "bg-primary-content text-primary " : "bg-secondary-content text-secondary",
-              "h-full inline-flex flex-nowrap justify-center items-center px-0.5",
-            )}>
-              <BsStarFill className="inline-block bg-transparent" />
-              {"×"}
-              {skill.assessment}
-            </div>
-          </div>
-        )}
-      </div>
-    </Section>
-  );
-}
-

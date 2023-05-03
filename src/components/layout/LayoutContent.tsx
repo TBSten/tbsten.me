@@ -11,7 +11,7 @@ const LayoutContent: FC<LayoutContentProps> = ({ className, children, p, ...prop
             "flex flex-col items-center",
             className,
         )} {...props}>
-            <div className="max-w-5xl">
+            <div className="max-w-5xl w-full">
                 {children}
             </div>
         </div>
