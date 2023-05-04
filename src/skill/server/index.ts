@@ -1,12 +1,10 @@
-import { collectionOf } from "@/gcp/firestore";
-import { SkillSchema } from "../type";
+import { readAsString, storage } from "@/gcp/storage";
+import { Skill, SkillSchema } from "../type";
 
-const skillCollection = collectionOf("skills", SkillSchema)
-
-export const getSkills = async () => {
-    const snap = await skillCollection.get()
-    return snap.docs
-        .sort((a, b) => b.createTime.toMillis() - a.createTime.toMillis())
-        .map(d => d.data())
+export const getSkills = async (): Promise<Skill[]> => {
+    const file = storage
+        .bucket(process.env.GCP_DATA_STORAGE as string)
+        .file("skills.json")
+    const skills = await readAsString(file).then(text => JSON.parse(text))
+    return SkillSchema.array().parse(skills)
 }
-
