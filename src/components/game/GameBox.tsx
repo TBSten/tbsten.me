@@ -6,21 +6,25 @@ export interface GameBoxProps {
     wrapperClassName?: string
     children?: ReactNode
     shadow?: boolean
+    color?: "primary" | "secondary"
+    variant?: "outlined" | "contained",
 }
 const GameBox: FC<GameBoxProps> = ({
     containerClassName, wrapperClassName,
-    shadow,
+    shadow, color = "primary", variant = "outlined",
     children,
 }) => {
     return (
         <div className={classNames(
-            "font-dot bg-base-100 text-base-content p-1 rounded-lg ",
-            "m-2",
+            "font-dot bg-base-100 text-base-content p-1 rounded-lg border border-base-200",
             { "shadow": shadow },
             containerClassName,
         )}>
             <div className={classNames(
-                "border-2 border-primary p-2 rounded-md",
+                color === "primary" ? "border-primary" : "border-secondary",
+                { "bg-primary text-primary-content": variant === "contained" && color === "primary" },
+                { "bg-secondary text-secondary-content": variant === "contained" && color === "secondary" },
+                "border-2 p-2 rounded-md",
                 wrapperClassName,
             )}>
                 {children}

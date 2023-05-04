@@ -27,30 +27,7 @@ module.exports = {
         dot: ["var(--font-dot) "],
       },
       animation: {
-        "slide-in-from-left": "slideInFromLeft 0.5s ease 0s forwards",
-        "slide-in-from-right": "slideInFromRight 0.5s ease 0s forwards",
-      },
-      keyframes: {
-        slideInFromLeft: {
-          "0%": {
-            transform: "translateX(-20%)",
-            opacity: "0",
-          },
-          "100%": {
-            transform: "translateX(0%)",
-            opacity: "1",
-          },
-        },
-        slideInFromRight: {
-          "0%": {
-            transform: "translateX(20%)",
-            opacity: "0",
-          },
-          "100%": {
-            transform: "translateX(0%)",
-            opacity: "1",
-          },
-        },
+        "float": "float 1s ease infinite",
       },
     },
   },

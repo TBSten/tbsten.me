@@ -1,39 +1,62 @@
-.animate-icon:hover {
-    animation: bounceX 3s forwards 1 linear;
+.animate-icon {
+    animation: bounceX 0.75s forwards 1 linear;
     transform-origin: center center;
 }
 
 @keyframes bounceX {
-    4% {
+    16% {
         transform: rotate(0deg);
     }
 
-    7% {
+    28% {
         transform: rotate(-10deg);
     }
 
-    10% {
+    40% {
         transform: rotate(10deg);
     }
 
-    12% {
+    48% {
         transform: rotate(-7deg);
     }
 
-    15% {
+    60% {
         transform: rotate(7deg);
     }
 
-    18% {
+    72% {
         transform: rotate(-2deg);
     }
 
-    20% {
+    80% {
         transform: rotate(2deg);
     }
 
-    25% {
+    100% {
         transform: rotate(0deg);
     }
 
+    0% {
+        opacity: 1.0;
+    }
+
+    20% {
+        opacity: 0.2;
+    }
+
+    40% {
+        opacity: 0.8;
+    }
+
+    60% {
+        opacity: 0.2;
+    }
+
+    80% {
+        opacity: 0.8;
+    }
+
+    100% {
+        opacity: 1.0;
+    }
 }

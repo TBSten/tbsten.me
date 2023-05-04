@@ -25,8 +25,23 @@ body {
   display: inline-block;
 }
 
+svg {
+  display: inline
+}
+
 /* daisy ui */
 
 .btn {
   @apply font-dot normal-case max-w-full;
+}
+
+@keyframes float {
+  0% {
+    @apply shadow;
+  }
+
+  100% {
+    @apply shadow-none;
+
+  }
 }

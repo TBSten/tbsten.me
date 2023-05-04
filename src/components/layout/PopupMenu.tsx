@@ -1,7 +1,6 @@
 import classNames from "classnames";
 import Link from "next/link";
 import { FC, useState } from "react";
-import { AiOutlineSafetyCertificate } from "react-icons/ai";
 import { BsStarFill } from "react-icons/bs";
 import { MdOutlineArticle } from "react-icons/md";
 import Center from "../Center";
@@ -35,9 +34,11 @@ const PopupMenu: FC<PopupMenuProps> = () => {
                         </Link>
                     </li>
                     <li>
-                        <Link href="/articles" className="btn btn-wide btn-ghost justify-start">
-                            <MdOutlineArticle className="mr-2 text-primary" />
-                            記事
+                        <Link href="/profile" className="btn btn-wide btn-ghost justify-start">
+                            <span className="mr-2 text-secondary">
+                                😁
+                            </span>
+                            プロフィール
                         </Link>
                     </li>
                     <li>
@@ -47,9 +48,11 @@ const PopupMenu: FC<PopupMenuProps> = () => {
                         </Link>
                     </li>
                     <li>
-                        <Link href="/certicifations" className="btn btn-wide btn-ghost justify-start">
-                            <AiOutlineSafetyCertificate className="mr-2 text-accent" />
-                            資格
+                        <Link href="/works" className="btn btn-wide btn-ghost justify-start">
+                            <span className="mr-2 text-secondary">
+                                🛠️
+                            </span>
+                            作ったもの
                         </Link>
                     </li>
                     <div className="divider" />

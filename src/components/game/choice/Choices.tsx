@@ -14,10 +14,12 @@ const Choices: FC<ChoicesProps> = ({ title, wrapperClassName, children, ...props
             )}
             {...props}
         >
-            <div className="my-2 mx-1">
-                {title}
-            </div>
-            <div className="pl-0 md:pl-2">
+            {title &&
+                <div className="my-2 mx-1">
+                    {title}
+                </div>
+            }
+            <div className="pr-4">
                 {children}
             </div>
         </GameBox>

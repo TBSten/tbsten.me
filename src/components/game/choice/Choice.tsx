@@ -4,14 +4,18 @@ import { FC, ReactNode } from "react";
 interface ChoiceProps {
     href?: string
     children?: ReactNode
+    selected?: boolean
 }
-const Choice: FC<ChoiceProps> = ({ href, children }) => {
+const Choice: FC<ChoiceProps> = ({ href, children, selected, }) => {
     const Container = href ? "a" : "div"
     return (
         <Container className={classNames(
-            "flex flex-row",
+            "flex flex-row hover:text-primary",
         )} href={href}>
-            <span className="text-primary ml-1 mr-2">
+            <span className={classNames(
+                selected ? "text-primary" : "text-inherit",
+                "ml-1 mr-2",
+            )}>
                 ▶︎
             </span>
             <span className={classNames(

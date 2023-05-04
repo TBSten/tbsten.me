@@ -1,19 +1,37 @@
+import TBStenDeadImg from "@/../public/tbsten-2.png";
 import TBStenImg from "@/../public/tbsten.png";
-import Center from "@/components/Center";
+import Dialog, { useDialog } from "@/components/Dialog";
+import CommandButton from "@/components/game/CommandButton";
+import GameBox from "@/components/game/GameBox";
+import TypingText from "@/components/game/TypingText";
+import Choice from "@/components/game/choice/Choice";
+import Choices from "@/components/game/choice/Choices";
+import { useHp } from "@/components/game/useHp";
+import GithubIcon from "@/components/icon/GithubIcon";
+import QiitaIcon from "@/components/icon/QiitaIcon";
+import TwitterIcon from "@/components/icon/TwitterIcon";
+import ZennIcon from "@/components/icon/ZennIcon";
+import Container from "@/components/layout/Container";
 import Footer from "@/components/layout/Footer";
 import PopupMenu from "@/components/layout/PopupMenu";
+import { useHelloEffect } from "@/components/useHelloEffect";
 import classNames from "classnames";
+import { motion } from "framer-motion";
 import { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { FC } from "react";
+import { useRouter } from "next/router";
+import { FC, useCallback, useEffect, useState } from "react";
+import { AiFillMessage, AiFillStar } from "react-icons/ai";
+import { BiDoorOpen } from "react-icons/bi";
 import styles from "./index.module.scss";
 
 interface Props {
 }
 
 const Top: NextPage<Props> = () => {
+  useHelloEffect()
   return (
     <>
       <TopHead />
@@ -26,16 +44,6 @@ const Top: NextPage<Props> = () => {
           height={500}
         />
 
-        {/* header */}
-        {/* <div className="p-1">
-          <div className="p-0.5 rounded-lg">
-            <h1 className="flex justify-center border-primary border-2 rounded-lg text-base-content bg-base-100">
-              <Link href="/" className="text-center w-full h-full normal-case font-dot font-bold text-6xl sm:text-2xl">
-                TBSten
-              </Link>
-            </h1>
-          </div>
-        </div> */}
         <h1 className="w-full flex justify-center text-center my-2">
           <Link href="/" className="btn btn-primary btn-wide btn-outline text-3xl">
             TBSten
@@ -68,59 +76,295 @@ const TopHead: FC<TopHeadProps> = () => {
   );
 }
 
+
+const SECRET_LINK = "/secret"
+
 interface HeroProps {
 }
 const Hero: FC<HeroProps> = () => {
+  const { hp, maxHp, attack, knocked } = useHp({
+    onKnock() {
+      knockedDialog.show()
+    }
+  })
+
+  const router = useRouter()
+  const [hittingDamage, setHittingDamage] = useState<null | { damage: number }>(null)
+  const handleCommand = useCallback(({ goto: href, damage = 10 }: { goto: string, damage?: number }) => async () => {
+    if (hittingDamage) return
+    setHittingDamage({ damage })
+    if (hp > 0) {
+      // 攻撃
+      const newHp = await attack(damage)
+      // ページ移動
+      if (newHp <= 0) return
+      setTimeout(() => {
+        router.push(href)
+      }, 600)
+    } else {
+      router.push(href)
+    }
+  }, [hittingDamage, hp, attack, router])
+
+  const handleMagicCommand = useCallback(async () => {
+    if (hittingDamage) return
+    // 攻撃
+    const damage = 100
+    setHittingDamage({ damage })
+    await attack(damage)
+    // フィーバーモード終了
+    setIsFeverMode(false)
+  }, [hittingDamage, attack])
+
+  const [isFeverMode, setIsFeverMode] = useState(false)
+  useEffect(() => {
+    if (Math.random() <= 0.2) setIsFeverMode(true)
+  }, [])
+
+  const knockedDialog = useDialog()
   return (
-    <div className="flex flex-col items-center sm:flex-row sm:justify-center sm:my-32 px-8 py-2">
-      <Link href="/">
-        <Image
-          className={classNames(
-            "rounded-3xl w-full h-auto sm:h-[50vh] sm:w-auto mt-8 border-4 border-primary-content",
-            styles["animate-icon"]
-          )}
-          src={TBStenImg}
-          alt="TBSten icon"
-          width={500}
-          height={500}
-        />
-      </Link>
-      <div className="mx-2 sm:mx-4 w-full sm:max-w-[50%] font-dot text-white text-2xl sm:text-xl text-center sm:text-start">
-        <Center className={classNames(
-          "text-4xl my-8",
-        )}>
-          TBSten
-        </Center>
-        <div className="my-2 bg-base-100 text-base-content p-2 rounded-md w-full sm:min-w-[30vw] text-base relative">
-          <div className="absolute top-0 left-0 z-0 w-full h-full p-1">
-            <div className="w-full h-full border-2 border-primary rounded" />
-          </div>
-          <div className="relative">
-            <div className={classNames(
-              "my-1 sm:before:content-['▶︎'] sm:before:mx-2 sm:before:text-primary delay-0",
-            )}>
-              プログラミング好きなしがない
-              専門学生
-            </div>
-            <div className="my-1 sm:before:content-['▶︎'] sm:before:mx-2 sm:before:text-primary delay-100">
-              Android エンジニア
-              {" "}
-              Lv 0.5
-            </div>
-            <div className="my-1 sm:before:content-['▶︎'] sm:before:mx-2 sm:before:text-primary delay-200">
-              技術記事 書き大志
-            </div>
-            <div className="my-1 sm:before:content-['▶︎'] sm:before:mx-2 sm:before:text-primary delay-300">
-              挙動が IPAのファン
-            </div>
+    <div className="my-8 overflow-hidden ">
+      <div className="flex flex-col md:flex-row justify-center items-center gap-4 p-2 my-8">
+        <div className="relative">
+          <Image
+            className={classNames(
+              "w-full h-auto max-h-[60vh] object-contain md:h-64 md:w-auto rounded-md",
+              {
+                [styles["animate-icon"]]: hittingDamage !== null,
+                "opacity-50": knocked,
+              },
+            )}
+            src={knocked ? TBStenDeadImg : TBStenImg}
+            alt="TBStenのアイコン"
+            width={500}
+            height={500}
+            onAnimationEnd={() => setHittingDamage(null)}
+          />
+          <div className="absolute -bottom-6 left-0 right-0 w-full px-4" >
+            <HeroHpGage
+              hp={hp}
+              maxHp={maxHp}
+            />
+            <HeroDamageEffect
+              className="absolute bottom-0 right-2 z-50"
+              damage={hittingDamage?.damage ?? null}
+            />
           </div>
         </div>
-        <Center>
-          <Link href="/profile" className="btn btn-sm my-2">
-            ▶︎ もっと ◀︎
-          </Link>
-        </Center>
+        <div className="">
+          <h2 className="font-dot text-5xl text-white text-center my-2">
+            <TypingText>
+              TBSten
+            </TypingText>
+          </h2>
+          <Choices containerClassName="font-main text-sm">
+            <Choice>
+              プログラミング好きな
+              しがない
+              <span className="font-dot">
+                専門学生
+              </span>
+            </Choice>
+            <Choice>
+              <span className="font-dot">
+                Androidエンジニア
+              </span>
+              {" "}
+              Lv 0.5
+            </Choice>
+            <Choice>
+              <span className="font-dot">
+                技術記事
+              </span>
+              書き大志
+            </Choice>
+            <Choice>
+              {"'"}TBSten{"'"}
+              と書いて
+              <span className="font-dot">
+                てべすてん
+              </span>
+              と読みます
+            </Choice>
+          </Choices>
+        </div>
+      </div>
+      <Container>
+        <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 px-8 md:px-0 gap-2">
+          <CommandButton key="prof"
+            startIcon={
+              <>😁</>
+            }
+            onClick={handleCommand({ damage: 10, goto: "/profile" })}
+          >
+            プロフィールを見る
+          </CommandButton>
+          <CommandButton key="zenn"
+            startIcon={
+              <ZennIcon />
+            }
+            onClick={handleCommand({ damage: 30, goto: "https://zenn.dev/tbsten" })}
+          >
+            Zenn
+            の記事を見る
+          </CommandButton>
+          <CommandButton key="qiita"
+            startIcon={
+              <QiitaIcon />
+            }
+            onClick={handleCommand({ damage: 30, goto: "https://qiita.com/tbsten" })}
+          >
+            Qiita
+            の記事を見る
+          </CommandButton>
+          <CommandButton key="skill"
+            startIcon={
+              <AiFillStar className="text-yellow-400" />
+            }
+            onClick={handleCommand({ goto: "/skills" })}
+          >
+            スキルを見る
+          </CommandButton>
+          <CommandButton key="work"
+            startIcon={
+              "🛠️"
+            }
+            onClick={handleCommand({ goto: "/works" })}
+          >
+            作ったものを聞く
+          </CommandButton>
+          <CommandButton key="monolog"
+            disabled
+            startIcon={
+              <AiFillMessage />
+            }
+          // onClick={handleCommand}
+          >
+            独り言を聞く
+          </CommandButton>
+          <CommandButton key="github"
+            startIcon={
+              <GithubIcon />
+            }
+            onClick={handleCommand({ goto: "https://github.com/tbsten" })}
+          >
+            Github
+            を見る
+          </CommandButton>
+          <CommandButton key="twitter"
+            startIcon={
+              <TwitterIcon />
+            }
+            onClick={handleCommand({ goto: "https://twitter.com/tbs__ten" })}
+          >
+            Twitter
+            を見る
+          </CommandButton>
+          {isFeverMode &&
+            <CommandButton key="magic"
+              startIcon={
+                "🪄"
+              }
+              onClick={handleMagicCommand}
+            >
+              呪文を唱える
+            </CommandButton>
+          }
+          {knocked &&
+            <Link href={SECRET_LINK} key="secret" className="w-full">
+              <CommandButton
+                className="w-full"
+                color="secondary"
+                variant="contained"
+                startIcon={
+                  <BiDoorOpen />
+                }
+              >
+                ひみつの抜け道
+              </CommandButton>
+            </Link>
+          }
+        </div>
+      </Container>
+      <Dialog {...knockedDialog.dialogProps}>
+        <div className="text-xl font-bold">
+          Good !
+        </div>
+        <GameBox containerClassName="my-4">
+          <p>
+            TBStenを倒した！
+          </p>
+          <p>
+            ひみつの抜け道を見つけた！
+          </p>
+        </GameBox>
+        <div className="flex flex-col-reverse gap-1 md:flex-row md:justify-between items-end">
+          <div>
+            <button className="btn" onClick={knockedDialog.hide}>戻る</button>
+          </div>
+          <div>
+            <Link href={SECRET_LINK} className="btn btn-secondary">
+              ひみつの抜け道へ
+            </Link>
+          </div>
+        </div>
+      </Dialog>
+    </div>
+  );
+}
+
+interface HeroHpGageProps {
+  hp: number
+  maxHp: number
+}
+const HeroHpGage: FC<HeroHpGageProps> = ({ hp, maxHp }) => {
+  return (
+    <div className="relative ">
+      {/* gage */}
+      <div className="h-3 w-full bg-gray-800 overflow-hidden rounded-full relative">
+        <div className="absolute left-0 h-full bg-primary transition-all duration-700" style={{
+          width: `${hp / maxHp * 100}%`,
+        }} />
+      </div>
+      {/* hp text */}
+      <div className="absolute right-2 bottom-0 z-10 font-dot text">
+        <span className="text-3xl text-primary-content bg-clip-text font-bold">
+          {hp}
+        </span>
+        <span className="text-xl text-primary-content">
+          /{maxHp}
+        </span>
       </div>
     </div>
   );
 }
+
+interface HeroDamageEffectProps {
+  className?: string
+  damage: number | null
+}
+const HeroDamageEffect: FC<HeroDamageEffectProps> = ({ damage, className }) => {
+  const [currentDamage, setCurrentDamage] = useState(damage)
+  useEffect(() => {
+    if (damage !== null) setCurrentDamage(damage)
+  }, [damage])
+  return (
+    <div key={damage} className={classNames(
+      "text-red-600 text-[2em] font-dot",
+      className,
+    )}>
+      {damage !== null &&
+        <motion.div
+          animate={{
+            opacity: [1, 1, 0],
+            y: [0, -10],
+          }}
+          transition={{ duration: 0.7 }}
+        >
+          -{currentDamage}
+        </motion.div>
+      }
+    </div>
+  );
+}
+

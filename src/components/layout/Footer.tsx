@@ -26,15 +26,24 @@ const Footer: FC<FooterProps> = () => {
                 </a>
             </div>
             <div className="my-4 flex flex-col items-end">
-                <Link href="/articles" className="block btn btn-link">
+                <Link href="/" className="block btn btn-link">
+                    TOP
+                </Link>
+                {/* <Link href="/articles" className="block btn btn-link">
                     技術記事
+                </Link> */}
+                <Link href="/profile" className="block btn btn-link">
+                    プロフィール
                 </Link>
                 <Link href="/skills" className="block btn btn-link">
                     スキル
                 </Link>
-                <Link href="/certifications" className="block btn btn-link">
-                    資格
+                <Link href="/works" className="block btn btn-link">
+                    作ったもの
                 </Link>
+                {/* <Link href="/certifications" className="block btn btn-link">
+                    資格
+                </Link> */}
             </div>
             <Center className="my-4">
                 <Link href="/" className="btn btn-wide btn-ghost text-2xl">
