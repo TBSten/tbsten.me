@@ -10,7 +10,7 @@ interface WorkCardProps {
 }
 const WorkCard: FC<WorkCardProps> = ({ work }) => {
     return (
-        <Link href={work.link} target="_blank" className="flex flex-row gap-2 p-2 md:p-4 bg-base-100 hover:bg-base-200 duration-300 cursor-pointer border-y border-base-200">
+        <Link href={work.link} target="_blank" className="flex flex-row gap-2 p-2 px-4 md:p-4 md:px-6 bg-base-100 hover:bg-base-200 duration-300 cursor-pointer border-y border-base-200">
             <div className="flex-shrink-0">
                 <Image
                     className="w-12 h-12 rounded-full object-contain"
