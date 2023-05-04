@@ -4,7 +4,7 @@ const assessmentMax = 4
 
 export const dummySkills: Skill[] = [
     {
-        icon: "/favicon.ico",
+        icon: "/skill.png",
         name: "Android",
         tags: ["android"],
         assessment: 2,
@@ -12,7 +12,7 @@ export const dummySkills: Skill[] = [
         interest: true,
     },
     {
-        icon: "/favicon.ico",
+        icon: "/skill.png",
         name: "Jetpack Compose",
         tags: ["android"],
         assessment: 3,
@@ -20,7 +20,7 @@ export const dummySkills: Skill[] = [
         interest: true,
     },
     {
-        icon: "/favicon.ico",
+        icon: "/skill.png",
         name: "Kotlin",
         tags: ["android", "language", "jvm"],
         assessment: 3,
@@ -28,7 +28,7 @@ export const dummySkills: Skill[] = [
         interest: true,
     },
     {
-        icon: "/favicon.ico",
+        icon: "/skill.png",
         name: "Nextjs",
         tags: ["web", "web front", "javascript"],
         assessment: 3,
@@ -36,7 +36,7 @@ export const dummySkills: Skill[] = [
         interest: true,
     },
     {
-        icon: "/favicon.ico",
+        icon: "/skill.png",
         name: "React",
         tags: ["web", "web front", "javascript"],
         assessment: 3,
@@ -44,7 +44,7 @@ export const dummySkills: Skill[] = [
         interest: true,
     },
     {
-        icon: "/favicon.ico",
+        icon: "/skill.png",
         name: "TypeScript",
         tags: ["web", "javascript"],
         assessment: 3,
@@ -52,7 +52,7 @@ export const dummySkills: Skill[] = [
         interest: true,
     },
     {
-        icon: "/favicon.ico",
+        icon: "/skill.png",
         name: "Java",
         tags: ["web", "javascript"],
         assessment: 4,
