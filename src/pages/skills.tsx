@@ -2,7 +2,7 @@ import BasicLayout from '@/components/layout/BasicLayout';
 import Container from '@/components/layout/Container';
 import LayoutContent from '@/components/layout/LayoutContent';
 import PageTitle from '@/components/layout/PageTitle';
-import { dummySkills } from '@/skill/dummy';
+import { useSkills } from '@/skill/client';
 import { Skill } from '@/skill/type';
 import { NextPage } from 'next';
 import Image from 'next/image';
@@ -12,7 +12,7 @@ import { BsFillStarFill, BsStar } from 'react-icons/bs';
 interface Props {
 }
 const SkillsPage: NextPage<Props> = ({ }) => {
-    const skills = dummySkills
+    const { skills, isLoading, } = useSkills()
     return (
         <BasicLayout>
             <PageTitle>
@@ -21,7 +21,7 @@ const SkillsPage: NextPage<Props> = ({ }) => {
             <LayoutContent className='bg-base-200'>
                 <Container>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                        {skills.map(skill =>
+                        {skills?.map(skill =>
                             <SkillCard key={skill.name}
                                 skill={skill}
                             />
