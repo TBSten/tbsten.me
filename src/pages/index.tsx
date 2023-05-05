@@ -1,6 +1,7 @@
 import TBStenDeadImg from "@/../public/tbsten-2.png";
 import TBStenImg from "@/../public/tbsten.png";
 import Dialog, { useDialog } from "@/components/Dialog";
+import PageHead from "@/components/PageHead";
 import CommandButton from "@/components/game/CommandButton";
 import GameBox from "@/components/game/GameBox";
 import TypingText from "@/components/game/TypingText";
@@ -18,7 +19,6 @@ import { useHelloEffect } from "@/components/useHelloEffect";
 import classNames from "classnames";
 import { motion } from "framer-motion";
 import { NextPage } from "next";
-import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -68,11 +68,11 @@ interface TopHeadProps {
 }
 const TopHead: FC<TopHeadProps> = () => {
   return (
-    <Head>
-      <title>
-        TBSten
-      </title>
-    </Head>
+    <PageHead
+      path="/"
+      title="TBSten"
+      description="プログラミング好きなしがない専門学校生TBStenのポートフォリオサイトです。"
+    />
   );
 }
 
