@@ -37,7 +37,7 @@ const Top: NextPage<Props> = () => {
       <TopHead />
       <div className="w-full h-full relative scroll-smooth scroll-p-10">
         <Image
-          className="w-full h-full fixed top-0 left-0 right-0 bottom-0 -z-50 blur-md object-cover overflow-visible brightness-90 "
+          className="w-full h-full fixed top-0 left-0 right-0 bottom-0 -z-50 blur-md object-cover overflow-visible brightness-90 bg-base-300"
           src={TBStenImg}
           alt="TBSten icon"
           width={500}
@@ -327,11 +327,11 @@ const HeroHpGage: FC<HeroHpGageProps> = ({ hp, maxHp }) => {
         }} />
       </div>
       {/* hp text */}
-      <div className="absolute right-2 bottom-0 z-10 font-dot text">
-        <span className="text-3xl text-primary-content bg-clip-text font-bold">
+      <div className="absolute right-2 bottom-0 z-10 font-dot text ">
+        <span className="text-3xl text-slate-200 bg-clip-text font-bold">
           {hp}
         </span>
-        <span className="text-xl text-primary-content">
+        <span className="text-xl text-slate-200">
           /{maxHp}
         </span>
       </div>
