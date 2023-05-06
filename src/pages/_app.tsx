@@ -1,12 +1,19 @@
 import { dotFont, mainFont } from '@/styles/font';
 import '@/styles/globals.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { SessionProvider } from "next-auth/react";
 import type { AppProps } from 'next/app';
 import Twemoji from 'react-twemoji';
 
 const queryClient = new QueryClient()
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({
+  Component,
+  pageProps: {
+    session,
+    ...pageProps
+  },
+}: AppProps) {
   return (
     <>
 
@@ -21,11 +28,13 @@ export default function App({ Component, pageProps }: AppProps) {
         }
       `}</style>
 
-      <Twemoji options={{ className: "twemoji" }}>
-        <QueryClientProvider client={queryClient}>
-          <Component {...pageProps} />
-        </QueryClientProvider>
-      </Twemoji>
+      <SessionProvider session={session}>
+        <Twemoji options={{ className: "twemoji" }}>
+          <QueryClientProvider client={queryClient}>
+            <Component {...pageProps} />
+          </QueryClientProvider>
+        </Twemoji>
+      </SessionProvider>
 
     </>
   )
