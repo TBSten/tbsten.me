@@ -9,5 +9,6 @@ export const dummyMonologs: Monolog[] = [
         publishedContent: null,
         createAt: 0,
         updateAt: 0,
+        publishAt: 0,
     },
 ]
