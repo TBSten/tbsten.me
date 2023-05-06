@@ -3,7 +3,6 @@ import { Monolog } from "./type";
 export const dummyMonologs: Monolog[] = [
     {
         slug: "test-1",
-        title: "テスト用記事 1",
         draft: "これは テスト用記事 1 です。\nこのように**マークダウンでもOK**です。",
         isPublished: false,
         publishedContent: null,

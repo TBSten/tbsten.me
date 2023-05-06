@@ -11,11 +11,6 @@ type MethodHandler<Arg extends {} = {}> = ({ req, res }: {
     invalidRequest: (res: NextApiResponse, msg?: string) => void
     invalidBody: (res: NextApiResponse, msg?: string) => void
 } & Arg) => ReturnType<NextApiHandler>
-type ErrorHandler = ({ }: {
-    req: NextApiRequest
-    res: NextApiResponse
-    error: unknown
-}) => ReturnType<NextApiHandler>
 
 export const apiRouteOf = (options: {
     cors?: {
@@ -31,7 +26,6 @@ export const apiRouteOf = (options: {
     requireAuthPut?: boolean
     onDelete?: MethodHandler<{ body: unknown }>
     requireAuthDelete?: boolean
-    onError?: ErrorHandler
     router?: (router: Router) => Router
 }) => {
     const cors = options.cors && {
@@ -55,6 +49,7 @@ export const apiRouteOf = (options: {
                 res.setHeader('Access-Control-Allow-Methods', cors.method.join(","))
                 res.setHeader('Access-Control-Allow-Headers', cors.headers.join(","))
                 next()
+                return
             })
     }
 
@@ -63,23 +58,31 @@ export const apiRouteOf = (options: {
     const invalidRequest: Parameters<MethodHandler>[0]["invalidRequest"] = (res, msg) =>
         res.status(400).json(msg ?? "invalid request")
     const invalidBody: Parameters<MethodHandler>[0]["invalidBody"] = (res, msg) =>
-        res.status(400).json(msg ?? "invalid body")
+        res.status(400).json(msg ?? `invalid body`)
 
     const auth: Parameters<typeof router.use>[0] = async (req, res, next) => {
         const session = await getServerSession(req, res, authOptions)
         if (session) {
-            next()
+            return await next()
         } else {
             res.status(401).json({
                 msg: "please login ."
             })
+            throw new Error("please login")
         }
+    }
+    const getBody = (req: NextApiRequest): unknown => {
+        let body = null
+        try {
+            body = JSON.parse(req.body)
+        } catch (e) { }
+        return body
     }
 
     if (onGet) {
         if (requireAuthGet) router.use(auth)
         router = router.get(async (req, res) =>
-            onGet({
+            await onGet({
                 req, res,
                 invalidRequest, invalidBody,
             })
@@ -88,8 +91,8 @@ export const apiRouteOf = (options: {
     if (onPost) {
         if (requireAuthPost) router.use(auth)
         router = router.post(async (req, res) =>
-            onPost({
-                req, res, body: req.body,
+            await onPost({
+                req, res, body: getBody(req),
                 invalidRequest, invalidBody,
             })
         )
@@ -97,8 +100,8 @@ export const apiRouteOf = (options: {
     if (onPut) {
         if (requireAuthPut) router.use(auth)
         router = router.put(async (req, res) =>
-            onPut({
-                req, res, body: req.body,
+            await onPut({
+                req, res, body: getBody(req),
                 invalidRequest, invalidBody,
             })
         )
@@ -106,8 +109,8 @@ export const apiRouteOf = (options: {
     if (onDelete) {
         if (requireAuthDelete) router.use(auth)
         router = router.delete(async (req, res) =>
-            onDelete({
-                req, res, body: req.body,
+            await onDelete({
+                req, res, body: getBody(req),
                 invalidRequest, invalidBody,
             })
         )
@@ -118,21 +121,10 @@ export const apiRouteOf = (options: {
         router = customRouter(router)
     }
 
-    const onError = options.onError ?? (
-        ({ req, res, error }) => {
-            console.error("unknown error", error)
-            console.error({ req, res })
-            return res.status(500).json({
-                msg: "unknown error",
-                error: error instanceof Error ? error.message : error,
-            })
-        }
-    )
     return router.handler({
         onError: async (error, req, res) => {
-            onError({
-                req, res, error
-            })
+            console.error("unknown error occurred", error)
+            res.status(500).end("Internal server error")
         },
     })
 }

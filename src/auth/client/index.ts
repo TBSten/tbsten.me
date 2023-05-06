@@ -1,14 +1,15 @@
-import { signIn as signInNextAuth, signOut as signOutNextAuth, useSession } from "next-auth/react"
+import { SignInOptions, SignOutParams, signIn as signInNextAuth, signOut as signOutNextAuth, useSession } from "next-auth/react"
 
-export const signInAdmin = async (username: string, password: string) => {
+export const signInAdmin = async (username: string, password: string, options: SignInOptions = {}) => {
     await signInNextAuth("credentials", {
         username, password,
         redirect: true,
+        ...options
     })
 }
 
-export const signOutAdmin = async () => {
-    await signOutNextAuth({ redirect: true })
+export const signOutAdmin = async (options: SignOutParams = {}) => {
+    await signOutNextAuth({ redirect: true, callbackUrl: "/admin/login", ...options })
 }
 
 export const useAdmin = () => {
