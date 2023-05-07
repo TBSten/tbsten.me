@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { FC, ReactNode, useState } from "react";
 
-interface DialogProps {
+export interface DialogProps {
     open: boolean
     onClose: () => void
     children?: ReactNode
@@ -18,16 +18,25 @@ const Dialog: FC<DialogProps> = ({ open, onClose, children }) => {
 
 export default Dialog;
 
-export function useDialog() {
-    const [open, setOpen] = useState(false)
+export function useDialog(options: {
+    open?: boolean,
+    setOpen?: (open: boolean) => void
+} = {}) {
+    const [internalOpen, setInternalOpen] = useState(false)
+
+    const open = typeof options.open === "boolean" ? options.open : internalOpen
+    const setOpen = typeof options.setOpen === "function" ? options.setOpen : setInternalOpen
+
     const show = () => setOpen(true)
     const hide = () => setOpen(false)
+    const toggle = () => setOpen(!open)
+
     const dialogProps = {
         open, onClose: hide,
-    }
+    } satisfies Partial<DialogProps>
     return {
         open,
         dialogProps,
-        show, hide,
+        show, hide, toggle,
     } as const
 }
