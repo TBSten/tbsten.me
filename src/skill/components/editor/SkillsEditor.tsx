@@ -78,6 +78,7 @@ export const SkillsEditor: FC<SkillsEditorProps> = ({
                 <SkillItemEditor key={i}
                     {...{ skill }}
                     onChangeName={(name) => setValue(`skills.${i}.name`, name)}
+                    onChangeIcon={(icon) => setValue(`skills.${i}.icon`, icon)}
                     onChangeAssessment={(assessment) => setValue(`skills.${i}.assessment`, assessment)}
                     onChangeAssessmentMax={(assessmentMax) => setValue(`skills.${i}.assessmentMax`, assessmentMax)}
                     onToggleInterest={() => {
