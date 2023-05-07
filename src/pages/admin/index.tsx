@@ -98,6 +98,11 @@ const AdminMenu: FC<AdminMenuProps> = () => {
                     {">"} スキル
                 </Link>
             </div>
+            <div className="">
+                <Link href={`/admin/work`} className='link link-primary text-xl'>
+                    {">"} 作ったもの
+                </Link>
+            </div>
         </LayoutContent>
     );
 }

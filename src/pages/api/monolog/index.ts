@@ -4,16 +4,24 @@ import { apiRouteOf } from "@/server/apiRoute";
 import { z } from "zod";
 
 export default apiRouteOf({
-    async onGet({ req, res }) {
-        const sortBy = z.union([z.literal("publishAt"), z.literal("createAt")])
-            .default("publishAt")
-            .parse(req.query.sortBy)
-        const dir = z.union([z.literal("asc"), z.literal("desc")])
-            .default("desc")
-            .parse(req.query.dir)
+    async onGet({ req, res, invalidRequest }) {
+        const params = new URLSearchParams(req.query as Record<string, string>)
+        const input = z.object({
+            sortBy: z.union([z.literal("publishAt"), z.literal("createAt")])
+                .default("publishAt"),
+            dir: z.union([z.literal("asc"), z.literal("desc")])
+                .default("desc"),
+            filter: z.string().optional(),
+        }).safeParse(Object.fromEntries(params.entries()))
+        if (!input.success) {
+            console.error(input.error)
+            return invalidRequest(res)
+        }
+        const { dir, sortBy, filter } = input.data
         const monologList = await getMonologList({
             dir,
             sortBy,
+            filter,
         })
         return res.json(monologList)
     },

@@ -1,7 +1,7 @@
-import { Zen_Kaku_Gothic_New } from "next/font/google"
+import { M_PLUS_1 } from "next/font/google"
 import localFont from "next/font/local"
 
-export const kiwiMaru = Zen_Kaku_Gothic_New({
+export const mPlus1 = M_PLUS_1({
     weight: ["400", "700"],
     subsets: ["latin"],
 })
@@ -21,4 +21,4 @@ export const dotFont = localFont({
     ],
 })
 
-export const mainFont = kiwiMaru
+export const mainFont = mPlus1
