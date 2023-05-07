@@ -44,6 +44,8 @@
     "tailwindcss-animation-delay": "^1.0.7",
     "typescript": "5.0.4",
     "uuid": "^9.0.0",
+    "zenn-content-css": "^0.1.143",
+    "zenn-markdown-html": "^0.1.143",
     "zod": "^3.21.4"
   }
 }

@@ -5,6 +5,8 @@ import { SessionProvider } from "next-auth/react";
 import type { AppProps } from 'next/app';
 import Twemoji from 'react-twemoji';
 
+import 'zenn-content-css';
+
 const queryClient = new QueryClient()
 
 export default function App({

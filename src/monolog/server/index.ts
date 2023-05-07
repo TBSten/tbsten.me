@@ -33,9 +33,11 @@ export const updateMonolog = async (slug: string, input: UpdateMonolog) => {
     if (input.type === "publish") {
         updateMonolog.isPublished = true
         updateMonolog.publishAt = Date.now()
+        updateMonolog.publishedContent = old.draft
     } else if (input.type === "unpublish") {
         updateMonolog.isPublished = false
         updateMonolog.publishAt = null
+        updateMonolog.publishedContent = null
     } else if (input.type === "updateDraft") {
         updateMonolog.draft = input.draft
     } else throw new Error(`invalid update monolog type : ${JSON.stringify(input)}`)
@@ -48,7 +50,21 @@ export const deleteMonolog = async (slug: string) => {
     await monologCollection.doc(slug).delete()
 }
 
-export const getMonologList = async ({ dir = "desc", sortBy = "publishAt" }: { dir?: "desc" | "asc", sortBy?: "publishAt" | "createAt" } = {}) => {
-    const snap = await monologCollection.orderBy(sortBy, dir).get()
+export const getMonologList = async ({ dir = "desc", sortBy = "publishAt", filter, }: {
+    dir?: "desc" | "asc"
+    sortBy?: "publishAt" | "createAt"
+    filter?: string
+} = {}) => {
+    let ref = monologCollection.orderBy(sortBy, dir)
+    if (filter) {
+        switch (filter) {
+            case "onlyPublished":
+                ref = ref.where("isPublished", "==", true)
+                break
+            default:
+                throw new Error(`invalid filter ${filter}`)
+        }
+    }
+    const snap = await ref.get()
     return snap.docs.map(d => d.data())
 }

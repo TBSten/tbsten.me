@@ -234,11 +234,10 @@ const Hero: FC<HeroProps> = () => {
             作ったものを聞く
           </CommandButton>
           <CommandButton key="monolog"
-            disabled
             startIcon={
               <AiFillMessage />
             }
-          // onClick={handleCommand}
+            onClick={handleCommand({ goto: "/monolog", damage: 20 })}
           >
             独り言を聞く
           </CommandButton>

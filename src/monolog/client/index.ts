@@ -1,12 +1,21 @@
 import { UseMutationOptions, useMutation, useQuery } from "@tanstack/react-query";
 import { MonologSchema, NewMonolog, UpdateMonolog } from "../type";
 
-export function useMonologList(options: { sortBy: "publishAt" | "createAt" }) {
+export function useMonologList(options: {
+    sortBy: "publishAt" | "createAt"
+    filter?: ("onlyPublished") | null
+}) {
     const { data: monologList, refetch, isLoading } = useQuery({
         queryKey: ["monolog"],
-        queryFn: () => fetch(`/api/monolog?sortBy=${options.sortBy}`)
-            .then(r => r.json())
-            .then(r => MonologSchema.array().parse(r)),
+        queryFn: () => {
+            const params = new URLSearchParams({
+                sortBy: options.sortBy,
+            })
+            if (options.filter) params.append("filter", options.filter)
+            return fetch(`/api/monolog?${params.toString()}`)
+                .then(r => r.json())
+                .then(r => MonologSchema.array().parse(r))
+        },
     })
     return {
         monologList,
