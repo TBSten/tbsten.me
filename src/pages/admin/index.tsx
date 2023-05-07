@@ -6,10 +6,12 @@ import LayoutContent from '@/components/layout/LayoutContent';
 import PageTitle from '@/components/layout/PageTitle';
 import { useMonologList, useMonologMutation } from '@/monolog/client';
 import MonologList from '@/monolog/component/MonologList';
-import { NewMonolog, NewMonologSchema, UpdateMonolog } from '@/monolog/type';
+import { Monolog, NewMonolog, NewMonologSchema, UpdateMonolog } from '@/monolog/type';
 import { ssrOfRequireAuth } from '@/server/ssr';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GetServerSideProps, NextPage } from 'next';
+import Link from 'next/link';
+import { FC } from 'react';
 import { useForm } from "react-hook-form";
 
 interface Props {
@@ -60,19 +62,82 @@ const AdminTop: NextPage<Props> = ({ }) => {
                 <button className='btn' onClick={() => signOutAdmin()}>log out</button>
             </div>
 
-            <div className="divider">
+            <div className='divider' />
+            <AdminMenu />
+
+            <MonologSection
+                {...{ isAddingDraft, isValid, }}
+                onChange={handleChangeMonolog}
+                onDelete={handleDeleteMonolog}
+                monologList={monologList ?? null}
+                onNewDraft={handleNewDraft}
+                inputSlugProps={register("slug")}
+                inputDraftProps={register("draft")}
+                currentChangingSlug={currentChangingSlug ?? null}
+                currentDeletingSlug={currentDeletingSlug ?? null}
+            />
+        </BasicLayout>
+    );
+}
+export default AdminTop;
+
+export const getServerSideProps: GetServerSideProps<Props> = ssrOfRequireAuth()
+
+interface AdminMenuProps {
+}
+const AdminMenu: FC<AdminMenuProps> = () => {
+    return (
+        <LayoutContent>
+            <div className="">
+                <Link href={`#monolog`} className='link link-primary text-xl'>
+                    {">"} 独り言
+                </Link>
+            </div>
+            <div className="">
+                <Link href={`/admin/skill`} className='link link-primary text-xl'>
+                    {">"} スキル
+                </Link>
+            </div>
+        </LayoutContent>
+    );
+}
+
+interface MonologSectionProps {
+    isAddingDraft: boolean
+    onNewDraft: () => void
+    inputSlugProps: JSX.IntrinsicElements["input"]
+    inputDraftProps: JSX.IntrinsicElements["textarea"]
+    isValid: boolean
+    monologList: Monolog[] | null
+    currentChangingSlug: string | null
+    currentDeletingSlug: string | null
+    onChange: (slug: string, input: UpdateMonolog) => void
+    onDelete: (slug: string) => void
+}
+const MonologSection: FC<MonologSectionProps> = ({
+    isAddingDraft,
+    onNewDraft,
+    inputSlugProps, inputDraftProps,
+    isValid,
+    monologList,
+    currentChangingSlug, currentDeletingSlug,
+    onChange, onDelete,
+}) => {
+    return (
+        <>
+            <div className="divider" id="monolog">
                 独り言
             </div>
             <LayoutContent>
                 <Container>
                     <LoadingFallback isLoading={isAddingDraft}>
-                        <form onSubmit={handleNewDraft}>
+                        <form onSubmit={onNewDraft}>
                             <div className="my-2">
                                 <input
                                     type="text"
                                     placeholder='slug (任意)'
                                     className="input input-bordered w-full"
-                                    {...register("slug")}
+                                    {...inputSlugProps}
                                 />
                             </div>
                             <div className="my-2 flex gap-1 flex-col md:flex-row md:items-center">
@@ -80,7 +145,7 @@ const AdminTop: NextPage<Props> = ({ }) => {
                                     placeholder='内容'
                                     className="textarea textarea-bordered flex-grow"
                                     rows={5}
-                                    {...register("draft")}
+                                    {...inputDraftProps}
                                 ></textarea>
                                 <button type="submit" className='btn btn-primary ml-4 md:ml-0'>
                                     下書き
@@ -93,13 +158,13 @@ const AdminTop: NextPage<Props> = ({ }) => {
                             }
                         </form>
                     </LoadingFallback>
-                    <div className="my-4">
+                    <div className="py-4 px-2 md:px6">
                         {monologList
                             ? <MonologList
                                 monologList={monologList}
                                 editable
-                                onChange={handleChangeMonolog}
-                                onDelete={handleDeleteMonolog}
+                                onChange={onChange}
+                                onDelete={onDelete}
                                 changingSlug={currentChangingSlug ?? undefined}
                                 deletingSlug={currentDeletingSlug ?? undefined}
                             />
@@ -107,11 +172,8 @@ const AdminTop: NextPage<Props> = ({ }) => {
                     </div>
                 </Container>
             </LayoutContent>
-        </BasicLayout>
+
+        </>
     );
 }
-export default AdminTop;
-
-export const getServerSideProps: GetServerSideProps<Props> = ssrOfRequireAuth()
-
 
