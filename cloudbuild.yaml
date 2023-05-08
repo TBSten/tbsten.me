@@ -24,5 +24,7 @@ steps:
   - '--allow-unauthenticated'
   - '--set-env-vars'
   - 'TZ=Asia/Tokyo'
+  - '--service-account'
+  - 'web-server@tbsten-me.iam.gserviceaccount.com'
 images:
 - 'gcr.io/$PROJECT_ID/web-server:$COMMIT_SHA'
