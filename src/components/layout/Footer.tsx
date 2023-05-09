@@ -38,6 +38,9 @@ const Footer: FC<FooterProps> = () => {
                 <Link href="/works" className="block btn btn-link">
                     作ったもの
                 </Link>
+                <Link href="/monolog" className="block btn btn-link">
+                    独り言
+                </Link>
             </div>
             <Center className="my-4">
                 <Link href="/" className="btn btn-wide btn-ghost text-2xl">
