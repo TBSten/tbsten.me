@@ -1,21 +1,28 @@
+import { useMutation } from "@tanstack/react-query"
 import { useState } from "react"
 import { z } from "zod"
 
 export function useUpload({ }: SelectFileOption = {}) {
     const [isUploading, setIsUploading] = useState(false)
-    const upload = async () => {
-        const files = await selectFile({ multiple: true })
-        if (!files) return null
-        setIsUploading(true)
-        const publicUrls = await Promise.all(Array.from(files).map(async file => {
-            return await uploadFile(file)
-        }))
-        setIsUploading(false)
-        return publicUrls
-    }
+    const [url, setUrl] = useState<null | string>(null)
+    const upload = useMutation({
+        mutationFn: async () => {
+            const files = await selectFile({ multiple: true })
+            if (!files) return null
+            setIsUploading(true)
+            const publicUrls = await Promise.all(Array.from(files).map(async file => {
+                const url = await uploadFile(file)
+                setUrl(url)
+                return url
+            }))
+            setIsUploading(false)
+            return publicUrls
+        },
+    })
     return {
-        upload,
+        upload: upload.mutateAsync,
         isUploading,
+        url,
     } as const
 }
 

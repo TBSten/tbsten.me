@@ -1,9 +1,13 @@
 import Dialog, { useDialog } from "@/components/Dialog";
 import LoadingFallback from "@/components/LoadingFallback";
+import MarkdownText from "@/components/MarkdownText";
+import { zodResolver } from "@hookform/resolvers/zod";
 import classNames from "classnames";
 import dayjs from "dayjs";
 import { FC, useState } from "react";
-import { Monolog, UpdateMonolog } from "../type";
+import { useForm } from "react-hook-form";
+import { Monolog, UpdateMonolog, UpdateMonologSchema } from "../type";
+import InputMonolog from "./InputMonolog";
 
 interface MonologListItemProps {
     monolog: Monolog
@@ -22,52 +26,69 @@ const MonologListItem: FC<MonologListItemProps> = ({
     isDeleting,
 }) => {
     const deleteDialog = useDialog()
-    const content = monolog.publishedContent ?? monolog.draft
+    const content = monolog.content
     const handleDelete = () => {
         onDelete && onDelete()
         deleteDialog.hide()
     }
     const [contentOpen, setContentOpen] = useState(false)
     const [metaDataOpen, setMetaDataOpen] = useState(false)
+
+    const editDialog = useDialog()
+    const { register, handleSubmit, watch, setValue, formState: { isValid, } } = useForm<UpdateMonolog>({
+        resolver: zodResolver(UpdateMonologSchema),
+        defaultValues: {
+            type: "update",
+            slug: null,
+            content: monolog.content,
+        },
+    })
+    const handleSaveChange = handleSubmit(async (UpdateMonolog) => {
+        onChange && onChange(UpdateMonolog)
+        editDialog.hide()
+    })
     return (
         <>
             <div className="flex flex-col border border-primary text-primary p-2 my-4">
                 <div className={classNames(
-                    "w-full overflow-x-auto mb-8",
+                    "w-full overflow-x-auto overflow-y-hidden mb-8",
                     contentOpen ? "max-h-fit" : "max-h-40",
                 )} onClick={() => setContentOpen(p => !p)}>
                     {/* contents */}
-                    {content}
+                    <MarkdownText
+                        markdown={content}
+                    />
                 </div>
                 <div className="border-t w-full border-secondary" />
                 <div className="flex flex-col md:flex-row px-2 py-1">
                     <div className={classNames(
                         "flex-grow overflow-y-hidden",
-                        metaDataOpen ? "max-h-fit" : "max-h-20",
                     )} onClick={() => setMetaDataOpen(p => !p)}>
-                        {/* meta data */}
-                        <div className="">
-                            slug:
-                            <span className="font-bold">
-                                {monolog.slug}
-                            </span>
-                        </div>
-                        {editable &&
-                            <>
-                                <div className="">
-                                    作成日時:
-                                    <span className="font-bold">
-                                        {dayjs(monolog.createAt).format("MM/DD")}
-                                    </span>
-                                </div>
-                                <div className="">
-                                    更新日時:
-                                    <span className="font-bold">
-                                        {dayjs(monolog.updateAt).format("MM/DD")}
-                                    </span>
-                                </div>
-                            </>
-                        }
+                        {metaDataOpen && <>
+                            {/* meta data */}
+                            <div className="">
+                                slug:
+                                <span className="font-bold">
+                                    {monolog.slug}
+                                </span>
+                            </div>
+                            {editable &&
+                                <>
+                                    <div className="">
+                                        作成日時:
+                                        <span className="font-bold">
+                                            {dayjs(monolog.createAt).format("MM/DD")}
+                                        </span>
+                                    </div>
+                                    <div className="">
+                                        更新日時:
+                                        <span className="font-bold">
+                                            {dayjs(monolog.updateAt).format("MM/DD")}
+                                        </span>
+                                    </div>
+                                </>
+                            }
+                        </>}
                         <div className="">
                             公開日時:
                             <span className="font-bold">
@@ -106,8 +127,8 @@ const MonologListItem: FC<MonologListItemProps> = ({
                                 </label>
                             </LoadingFallback>
                         </div>
-                        {onDelete &&
-                            <div className="form-control w-fit">
+                        <div className="w-full flex justify-end gap-4">
+                            {onDelete &&
                                 <LoadingFallback isLoading={!!isDeleting}>
                                     <button
                                         className="btn btn-error"
@@ -115,11 +136,24 @@ const MonologListItem: FC<MonologListItemProps> = ({
                                         disabled={!editable && isDeleting}
                                     >削除</button>
                                 </LoadingFallback>
-                            </div>
-                        }
+                            }
+                            {editable &&
+                                <LoadingFallback isLoading={!!isDeleting}>
+                                    <button
+                                        className="btn btn-secondary"
+                                        onClick={() => {
+                                            editDialog.show()
+                                            setValue("content", monolog.content)
+                                        }}
+                                        disabled={!editable && isDeleting}
+                                    >編集</button>
+                                </LoadingFallback>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
+            {/* 削除確認 */}
             <Dialog {...deleteDialog.dialogProps}>
                 <div className="">
                     削除してもいいですか？
@@ -143,6 +177,25 @@ const MonologListItem: FC<MonologListItemProps> = ({
                     <button className="btn btn-error" onClick={handleDelete}>
                         削除する
                     </button>
+                </div>
+            </Dialog>
+            {/* 編集 */}
+            <Dialog {...editDialog.dialogProps}>
+                <div className="text-xl font-bold">
+                    {monolog.content.substring(0, 10) + (monolog.content.length > 10 ? "..." : "")}
+                    の編集
+                </div>
+                <div className="form-control">
+                    <InputMonolog
+                        content={watch("content")}
+                        inputSlugProps={register("slug")}
+                        inputContentProps={register("content")}
+                        isValid={isValid}
+                    />
+                </div>
+                <div className="modal-action">
+                    <button className="btn" onClick={editDialog.hide}>キャンセル</button>
+                    <button className="btn btn-primary" onClick={handleSaveChange}>保存</button>
                 </div>
             </Dialog>
         </>

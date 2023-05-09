@@ -1,3 +1,4 @@
+import { AdminMenuSection } from '@/admin/components/AdminMenu';
 import BasicLayout from '@/components/layout/BasicLayout';
 import Container from '@/components/layout/Container';
 import LayoutContent from '@/components/layout/LayoutContent';
@@ -24,6 +25,9 @@ const AdminSkillPage: NextPage<Props> = ({ }) => {
                 Admin:
                 スキル
             </PageTitle>
+
+            <AdminMenuSection />
+
             <LayoutContent className='bg-base-200'>
                 <Container>
                     <SkillsEditor

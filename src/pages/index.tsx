@@ -42,6 +42,7 @@ const Top: NextPage<Props> = () => {
           alt="TBSten icon"
           width={500}
           height={500}
+          priority={false}
         />
 
         <h1 className="w-full flex justify-center text-center my-2">
@@ -139,6 +140,7 @@ const Hero: FC<HeroProps> = () => {
             width={500}
             height={500}
             onAnimationEnd={() => setHittingDamage(null)}
+            priority={false}
           />
           <div className="absolute -bottom-6 left-0 right-0 w-full px-4" >
             <HeroHpGage
