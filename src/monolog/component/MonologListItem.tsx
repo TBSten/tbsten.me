@@ -38,7 +38,8 @@ const MonologListItem: FC<MonologListItemProps> = ({
     const { register, handleSubmit, watch, setValue, formState: { isValid, } } = useForm<UpdateMonolog>({
         resolver: zodResolver(UpdateMonologSchema),
         defaultValues: {
-            type: "updateContent",
+            type: "update",
+            slug: null,
             content: monolog.content,
         },
     })
@@ -50,7 +51,7 @@ const MonologListItem: FC<MonologListItemProps> = ({
         <>
             <div className="flex flex-col border border-primary text-primary p-2 my-4">
                 <div className={classNames(
-                    "w-full overflow-x-auto mb-8",
+                    "w-full overflow-x-auto overflow-y-hidden mb-8",
                     contentOpen ? "max-h-fit" : "max-h-40",
                 )} onClick={() => setContentOpen(p => !p)}>
                     {/* contents */}
@@ -187,6 +188,7 @@ const MonologListItem: FC<MonologListItemProps> = ({
                 <div className="form-control">
                     <InputMonolog
                         content={watch("content")}
+                        inputSlugProps={register("slug")}
                         inputContentProps={register("content")}
                         isValid={isValid}
                     />

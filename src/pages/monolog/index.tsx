@@ -35,7 +35,7 @@ interface MonologCardProps {
 }
 const MonologCard: FC<MonologCardProps> = ({ monolog }) => {
     return (
-        <div className='p-2 border border-secondary my-2'>
+        <div className='p-2 border border-secondary my-2' id={monolog.slug}>
             <MarkdownText
                 markdown={monolog.content}
             />

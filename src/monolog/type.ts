@@ -28,8 +28,9 @@ export const UpdateMonologSchema = z.union([
         type: z.literal("unpublish"),
     }),
     z.object({
-        type: z.literal("updateContent"),
+        type: z.literal("update"),
         content: z.string(),
+        slug: z.string().nullable().default(null),
     }),
 ])
 export type UpdateMonolog = z.infer<typeof UpdateMonologSchema>
