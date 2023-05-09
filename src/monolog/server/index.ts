@@ -14,7 +14,6 @@ export const addMonolog = async (input: NewMonolog) => {
         updateAt: now,
         publishAt: null,
         isPublished: false,
-        publishedContent: null,
     }
     await monologCollection.doc(slug).create(newMonolog)
     return await getMonolog(slug)
@@ -33,13 +32,11 @@ export const updateMonolog = async (slug: string, input: UpdateMonolog) => {
     if (input.type === "publish") {
         updateMonolog.isPublished = true
         updateMonolog.publishAt = Date.now()
-        updateMonolog.publishedContent = old.draft
     } else if (input.type === "unpublish") {
         updateMonolog.isPublished = false
         updateMonolog.publishAt = null
-        updateMonolog.publishedContent = null
-    } else if (input.type === "updateDraft") {
-        updateMonolog.draft = input.draft
+    } else if (input.type === "updateContent") {
+        updateMonolog.content = input.content
     } else throw new Error(`invalid update monolog type : ${JSON.stringify(input)}`)
     await monologCollection.doc(slug).update(updateMonolog)
 

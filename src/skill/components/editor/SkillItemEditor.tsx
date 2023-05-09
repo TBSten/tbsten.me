@@ -31,7 +31,6 @@ const SkillItemEditorContent: FC<SkillItemEditorProps> = ({
     onDelete,
 }) => {
     const deleteConfirm = useConfirm(() => { onDelete() })
-    // const uploadDialog = useDialog()
     const imageEditor = useImageEditor()
     return (
         <div className="my-8 mx-4 md:my-4">

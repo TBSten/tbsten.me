@@ -6,6 +6,7 @@ import Container from '@/components/layout/Container';
 import LayoutContent from '@/components/layout/LayoutContent';
 import PageTitle from '@/components/layout/PageTitle';
 import { useMonologList, useMonologMutation } from '@/monolog/client';
+import InputMonolog from '@/monolog/component/InputMonolog';
 import MonologList from '@/monolog/component/MonologList';
 import { Monolog, NewMonolog, NewMonologSchema, UpdateMonolog } from '@/monolog/type';
 import { ssrOfRequireAuth } from '@/server/ssr';
@@ -17,17 +18,17 @@ import { useForm } from "react-hook-form";
 interface Props {
 }
 const AdminTop: NextPage<Props> = ({ }) => {
-    const { register, handleSubmit, reset, setError, formState: { isValid } } = useForm<NewMonolog>({
+    const { register, handleSubmit, watch, reset, setError, formState: { isValid } } = useForm<NewMonolog>({
         resolver: zodResolver(NewMonologSchema),
         defaultValues: {
             slug: "",
-            draft: "",
+            content: "",
         },
     })
     const {
         changeMonolog, currentChangingSlug,
         deleteMonolog, currentDeletingSlug,
-        addDraft, isAddingDraft,
+        addMonolog, isAddingMonolog,
     } = useMonologMutation({
         add: {
             async onSuccess() {
@@ -40,7 +41,7 @@ const AdminTop: NextPage<Props> = ({ }) => {
         },
     })
     const handleNewDraft = handleSubmit(async (input) =>
-        await addDraft(input)
+        await addMonolog(input)
     )
     const { monologList, refetch } = useMonologList({ sortBy: "createAt" })
 
@@ -66,15 +67,16 @@ const AdminTop: NextPage<Props> = ({ }) => {
             <AdminMenuSection />
 
             <MonologSection
-                {...{ isAddingDraft, isValid, }}
+                {...{ isAddingMonolog, isValid, }}
                 onChange={handleChangeMonolog}
                 onDelete={handleDeleteMonolog}
                 monologList={monologList ?? null}
                 onNewDraft={handleNewDraft}
                 inputSlugProps={register("slug")}
-                inputDraftProps={register("draft")}
+                inputContentProps={register("content")}
                 currentChangingSlug={currentChangingSlug ?? null}
                 currentDeletingSlug={currentDeletingSlug ?? null}
+                content={watch("content")}
             />
         </BasicLayout>
     );
@@ -85,25 +87,27 @@ export const getServerSideProps: GetServerSideProps<Props> = ssrOfRequireAuth()
 
 
 interface MonologSectionProps {
-    isAddingDraft: boolean
+    isAddingMonolog: boolean
     onNewDraft: () => void
     inputSlugProps: JSX.IntrinsicElements["input"]
-    inputDraftProps: JSX.IntrinsicElements["textarea"]
+    inputContentProps: JSX.IntrinsicElements["textarea"]
     isValid: boolean
     monologList: Monolog[] | null
     currentChangingSlug: string | null
     currentDeletingSlug: string | null
     onChange: (slug: string, input: UpdateMonolog) => void
     onDelete: (slug: string) => void
+    content: string
 }
 const MonologSection: FC<MonologSectionProps> = ({
-    isAddingDraft,
+    isAddingMonolog,
     onNewDraft,
-    inputSlugProps, inputDraftProps,
+    inputSlugProps, inputContentProps: inputDraftProps,
     isValid,
     monologList,
     currentChangingSlug, currentDeletingSlug,
     onChange, onDelete,
+    content,
 }) => {
     return (
         <>
@@ -112,32 +116,16 @@ const MonologSection: FC<MonologSectionProps> = ({
             </div>
             <LayoutContent>
                 <Container>
-                    <LoadingFallback isLoading={isAddingDraft}>
+                    <LoadingFallback isLoading={isAddingMonolog}>
                         <form onSubmit={onNewDraft}>
-                            <div className="my-2">
-                                <input
-                                    type="text"
-                                    placeholder='slug (任意)'
-                                    className="input input-bordered w-full"
-                                    {...inputSlugProps}
-                                />
-                            </div>
-                            <div className="my-2 flex gap-1 flex-col md:flex-row md:items-center">
-                                <textarea
-                                    placeholder='内容'
-                                    className="textarea textarea-bordered flex-grow"
-                                    rows={5}
-                                    {...inputDraftProps}
-                                ></textarea>
-                                <button type="submit" className='btn btn-primary ml-4 md:ml-0'>
-                                    下書き
-                                </button>
-                            </div>
-                            {!isValid &&
-                                <div className="alert alert-error">
-                                    エラーが発生しました
-                                </div>
-                            }
+                            <InputMonolog
+                                {...{ content, inputContentProps: inputDraftProps, inputSlugProps, isValid }}
+                                action={
+                                    <button type="submit" className='btn btn-primary ml-4 md:ml-0'>
+                                        下書き
+                                    </button>
+                                }
+                            />
                         </form>
                     </LoadingFallback>
                     <div className="py-4 px-2 md:px6">

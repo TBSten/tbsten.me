@@ -30,7 +30,7 @@ export function useMonologMutation(options: {
     delete?: UseMutationOptions<void, unknown, { slug: string }, unknown>,
 } = {}) {
     // add
-    const { mutateAsync: addDraft, isLoading: isAddingDraft } = useMutation({
+    const { mutateAsync: addMonolog, isLoading: isAddingMonolog } = useMutation({
         mutationFn: async (input: NewMonolog) => {
             const res = await fetch("/api/monolog", {
                 method: "POST",
@@ -62,7 +62,7 @@ export function useMonologMutation(options: {
     return {
         currentChangingSlug: isChanging ? changeVars?.slug : null,
         currentDeletingSlug: isDeleting ? deleteVars?.slug : null,
-        addDraft, isAddingDraft,
+        addMonolog, isAddingMonolog,
         changeMonolog, isChanging,
         deleteMonolog, isDeleting,
     } as const
