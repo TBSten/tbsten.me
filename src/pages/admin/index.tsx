@@ -1,3 +1,4 @@
+import { AdminMenuSection } from '@/admin/components/AdminMenu';
 import { signOutAdmin } from '@/auth/client';
 import LoadingFallback from '@/components/LoadingFallback';
 import BasicLayout from '@/components/layout/BasicLayout';
@@ -10,7 +11,6 @@ import { Monolog, NewMonolog, NewMonologSchema, UpdateMonolog } from '@/monolog/
 import { ssrOfRequireAuth } from '@/server/ssr';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GetServerSideProps, NextPage } from 'next';
-import Link from 'next/link';
 import { FC } from 'react';
 import { useForm } from "react-hook-form";
 
@@ -63,7 +63,7 @@ const AdminTop: NextPage<Props> = ({ }) => {
             </div>
 
             <div className='divider' />
-            <AdminMenu />
+            <AdminMenuSection />
 
             <MonologSection
                 {...{ isAddingDraft, isValid, }}
@@ -83,29 +83,6 @@ export default AdminTop;
 
 export const getServerSideProps: GetServerSideProps<Props> = ssrOfRequireAuth()
 
-interface AdminMenuProps {
-}
-const AdminMenu: FC<AdminMenuProps> = () => {
-    return (
-        <LayoutContent>
-            <div className="">
-                <Link href={`#monolog`} className='link link-primary text-xl'>
-                    {">"} 独り言
-                </Link>
-            </div>
-            <div className="">
-                <Link href={`/admin/skill`} className='link link-primary text-xl'>
-                    {">"} スキル
-                </Link>
-            </div>
-            <div className="">
-                <Link href={`/admin/work`} className='link link-primary text-xl'>
-                    {">"} 作ったもの
-                </Link>
-            </div>
-        </LayoutContent>
-    );
-}
 
 interface MonologSectionProps {
     isAddingDraft: boolean

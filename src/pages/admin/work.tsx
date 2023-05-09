@@ -1,3 +1,4 @@
+import { AdminMenuSection } from '@/admin/components/AdminMenu';
 import BasicLayout from '@/components/layout/BasicLayout';
 import LayoutContent from '@/components/layout/LayoutContent';
 import PageTitle from '@/components/layout/PageTitle';
@@ -12,6 +13,9 @@ const AdminWorksPage: NextPage<Props> = ({ }) => {
                 Admin:
                 作ったもの
             </PageTitle>
+
+            <AdminMenuSection />
+
             <LayoutContent>
                 作ったもの
             </LayoutContent>
