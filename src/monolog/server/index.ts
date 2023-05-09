@@ -35,7 +35,7 @@ export const updateMonolog = async (slug: string, input: UpdateMonolog) => {
     } else if (input.type === "unpublish") {
         updateMonolog.isPublished = false
         updateMonolog.publishAt = null
-    } else if (input.type === "updateContent") {
+    } else if (input.type === "update") {
         updateMonolog.content = input.content
     } else throw new Error(`invalid update monolog type : ${JSON.stringify(input)}`)
     await monologCollection.doc(slug).update(updateMonolog)
