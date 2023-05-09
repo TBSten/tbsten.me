@@ -1,4 +1,6 @@
+import Loading from '@/components/Loading';
 import MarkdownText from '@/components/MarkdownText';
+import PageHead from '@/components/PageHead';
 import BasicLayout from '@/components/layout/BasicLayout';
 import LayoutContent from '@/components/layout/LayoutContent';
 import PageTitle from '@/components/layout/PageTitle';
@@ -13,22 +15,41 @@ interface Props {
 const MonologListPage: NextPage<Props> = ({ }) => {
     const { monologList, isLoading } = useMonologList({ sortBy: "publishAt", filter: "onlyPublished", })
     return (
-        <BasicLayout>
-            <PageTitle>
-                独り言
-            </PageTitle>
-            <LayoutContent>
-                {monologList?.map(monolog =>
-                    <MonologCard
-                        key={monolog.slug}
-                        monolog={monolog}
-                    />
-                )}
-            </LayoutContent>
-        </BasicLayout>
+        <>
+            <MonologListHead />
+            <BasicLayout>
+                <PageTitle>
+                    独り言
+                </PageTitle>
+                <LayoutContent>
+                    {isLoading &&
+                        <Loading />
+                    }
+                    {monologList?.map(monolog =>
+                        <MonologCard
+                            key={monolog.slug}
+                            monolog={monolog}
+                        />
+                    )}
+                </LayoutContent>
+            </BasicLayout>
+        </>
     );
 }
 export default MonologListPage;
+
+interface MonologListHeadProps {
+}
+const MonologListHead: FC<MonologListHeadProps> = () => {
+    return (
+        <PageHead
+            path="/monolog"
+            title="独り言 | TBSten"
+            description="TBStenの独り言です。"
+        />
+    );
+}
+
 
 interface MonologCardProps {
     monolog: Monolog
