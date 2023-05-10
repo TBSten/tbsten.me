@@ -43,6 +43,8 @@ const Top: NextPage<Props> = () => {
           width={500}
           height={500}
           priority={false}
+          quality={20}
+          placeholder="blur"
         />
 
         <h1 className="w-full flex justify-center text-center my-2">
