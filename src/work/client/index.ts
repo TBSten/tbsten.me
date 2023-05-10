@@ -1,12 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import { WorkSchema } from "../type";
+import { Work, WorkSchema } from "../type";
 
-export function useWorks() {
+export function useWorks({ default: defalutWorks }: { default?: Work[] } = {}) {
     const { data: works, isLoading, } = useQuery({
         queryKey: ["work"],
         queryFn: () => fetch(`/api/work`)
             .then(r => r.json())
-            .then(r => WorkSchema.array().parse(r))
+            .then(r => WorkSchema.array().parse(r)),
+        initialData: defalutWorks,
     })
     return {
         works,

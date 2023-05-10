@@ -1,9 +1,10 @@
 import { UseMutationOptions, useMutation, useQuery } from "@tanstack/react-query";
-import { MonologSchema, NewMonolog, UpdateMonolog } from "../type";
+import { Monolog, MonologSchema, NewMonolog, UpdateMonolog } from "../type";
 
 export function useMonologList(options: {
     sortBy: "publishAt" | "createAt"
     filter?: ("onlyPublished") | null
+    default?: Monolog[]
 }) {
     const { data: monologList, refetch, isLoading } = useQuery({
         queryKey: ["monolog"],
@@ -16,6 +17,7 @@ export function useMonologList(options: {
                 .then(r => r.json())
                 .then(r => MonologSchema.array().parse(r))
         },
+        initialData: options.default,
     })
     return {
         monologList,

@@ -4,13 +4,16 @@ import LayoutContent from '@/components/layout/LayoutContent';
 import PageTitle from '@/components/layout/PageTitle';
 import { useWorks } from '@/work/client';
 import WorkCard from '@/work/components/WorkCard';
-import { NextPage } from 'next';
+import { getWorks } from '@/work/server';
+import { Work } from '@/work/type';
+import { GetServerSideProps, NextPage } from 'next';
 import { FC } from 'react';
 
 interface Props {
+    works: Work[]
 }
-const WorksPage: NextPage<Props> = ({ }) => {
-    const { works } = useWorks()
+const WorksPage: NextPage<Props> = ({ works: defaultWorks }) => {
+    const { works } = useWorks({ default: defaultWorks })
     return (
         <>
             <WorksHead />
@@ -43,6 +46,15 @@ const WorksPage: NextPage<Props> = ({ }) => {
     );
 }
 export default WorksPage;
+
+export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
+    const works = await getWorks()
+    return {
+        props: {
+            works,
+        }
+    }
+}
 
 interface WorksHeadProps {
 }
