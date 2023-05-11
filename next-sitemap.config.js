@@ -1,8 +1,8 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-    siteUrl: process.env.SITE_URL || 'https://tbsten.me.com',
+    siteUrl: process.env.SITE_URL || 'https://tbsten.me',
     generateRobotsTxt: true, // (optional)
-    // ...other options
+    generateIndexSitemap: false,
     exclude: [
         "/admin",
         "/admin/*",
