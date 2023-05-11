@@ -137,12 +137,14 @@ const Hero: FC<HeroProps> = () => {
     <div className="my-8 overflow-hidden">
       <div className="flex flex-col md:flex-row justify-center items-center gap-4 p-8 mt-[150px] my-8">
         <div className="relative">
-          <Link href={`/monolog#${randomMonolog?.slug}`} className={classNames(
+          <div className={classNames(
             "absolute bottom-[calc(100%+0.5rem)] left-[-1.5rem] right-[-1.5rem] w-[calc(100%+1.5rem*2)] h-[150px]",
-            "bg-base-100 p-2 rounded-xl hover:rounded-2xl overflow-visible hover:shadow-2xl",
+            "md:left-[-3rem] md:right-[-3rem] md:w-[calc(100%+3rem*2)]",
+            "bg-base-100 cursor-pointer p-2 rounded-xl hover:rounded-2xl overflow-visible hover:shadow-2xl",
+            "active:scale-90",
             styles["balloon"],
-            "duration-500", isLoadingRandomMonolog ? "opacity-0" : "opacity-100",
-          )}>
+            "duration-300", isLoadingRandomMonolog ? "opacity-0 translate-y-12" : "opacity-100 translate-y-0",
+          )} onClick={handleCommand({ goto: `/monolog#${randomMonolog?.slug}`, damage: 10 })}>
             <div className="overflow-auto w-full h-full">
               <div className="font-bold font-dot">独り言</div>
               {randomMonolog &&
@@ -155,7 +157,7 @@ const Hero: FC<HeroProps> = () => {
                 詳しく
               </div>
             </div>
-          </Link>
+          </div>
           <Image
             className={classNames(
               "w-full h-auto max-h-[60vh] object-contain md:h-64 md:w-auto rounded-md",
