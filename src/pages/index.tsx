@@ -1,6 +1,8 @@
 import TBStenDeadImg from "@/../public/tbsten-2.png";
-import TBStenImg from "@/../public/tbsten.png";
+import TBStenImg from "@/../public/tbsten500x500.png";
+import { useDelayedValue } from "@/client/delayed";
 import Dialog, { useDialog } from "@/components/Dialog";
+import MarkdownText from "@/components/MarkdownText";
 import PageHead from "@/components/PageHead";
 import CommandButton from "@/components/game/CommandButton";
 import GameBox from "@/components/game/GameBox";
@@ -16,6 +18,7 @@ import Container from "@/components/layout/Container";
 import Footer from "@/components/layout/Footer";
 import PopupMenu from "@/components/layout/PopupMenu";
 import { useHelloEffect } from "@/components/useHelloEffect";
+import { useRandomMonolog } from "@/monolog/client";
 import classNames from "classnames";
 import { motion } from "framer-motion";
 import { NextPage } from "next";
@@ -125,10 +128,34 @@ const Hero: FC<HeroProps> = () => {
   }, [])
 
   const knockedDialog = useDialog()
+
+  const [isLoadedImage, setIsLooadedImage] = useState(false)
+  const delayedIsLoadImage = useDelayedValue(500, isLoadedImage)
+
+  const { isLoading: isLoadingRandomMonolog, monolog: randomMonolog } = useRandomMonolog()
   return (
-    <div className="my-8 overflow-hidden ">
-      <div className="flex flex-col md:flex-row justify-center items-center gap-4 p-2 my-8">
+    <div className="my-8 overflow-hidden">
+      <div className="flex flex-col md:flex-row justify-center items-center gap-4 p-8 mt-[150px] my-8">
         <div className="relative">
+          <Link href={`/monolog#${randomMonolog?.slug}`} className={classNames(
+            "absolute bottom-[calc(100%+0.5rem)] left-[-1.5rem] right-[-1.5rem] w-[calc(100%+1.5rem*2)] h-[150px]",
+            "bg-base-100 p-2 rounded-xl hover:rounded-2xl overflow-visible hover:shadow-2xl",
+            styles["balloon"],
+            "duration-500", isLoadingRandomMonolog ? "opacity-0" : "opacity-100",
+          )}>
+            <div className="overflow-auto w-full h-full">
+              <div className="font-bold font-dot">独り言</div>
+              {randomMonolog &&
+                <MarkdownText
+                  markdown={randomMonolog.content}
+                  compact
+                />
+              }
+              <div className="absolute bottom-1 right-1 px-0.5 link link-primary bg-white rounded">
+                詳しく
+              </div>
+            </div>
+          </Link>
           <Image
             className={classNames(
               "w-full h-auto max-h-[60vh] object-contain md:h-64 md:w-auto rounded-md",
@@ -143,6 +170,7 @@ const Hero: FC<HeroProps> = () => {
             height={500}
             onAnimationEnd={() => setHittingDamage(null)}
             priority={false}
+            onLoad={() => setIsLooadedImage(true)}
           />
           <div className="absolute -bottom-6 left-0 right-0 w-full px-4" >
             <HeroHpGage
@@ -157,9 +185,14 @@ const Hero: FC<HeroProps> = () => {
         </div>
         <div className="">
           <h2 className="font-dot text-5xl text-white text-center my-2">
-            <TypingText>
-              TBSten
-            </TypingText>
+            <div className={classNames(
+              "duration-500",
+              delayedIsLoadImage ? "opacity-100" : "opacity-0",
+            )}>
+              <TypingText key={String(delayedIsLoadImage)}>
+                TBSten
+              </TypingText>
+            </div>
           </h2>
           <Choices containerClassName="font-main text-sm">
             <Choice>

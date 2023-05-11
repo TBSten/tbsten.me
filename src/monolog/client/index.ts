@@ -69,3 +69,15 @@ export function useMonologMutation(options: {
         deleteMonolog, isDeleting,
     } as const
 }
+
+export function useRandomMonolog() {
+    const { data: monolog, isLoading } = useQuery({
+        queryKey: ["monolog", "random"],
+        queryFn: () => fetch("/api/monolog/random")
+            .then(r => r.json())
+            .then(r => MonologSchema.parse(r)),
+        staleTime: 30 * 1000,
+    })
+    return { monolog, isLoading } as const
+}
+

@@ -47,3 +47,7 @@ svg {
 
   }
 }
+
+.znc.compact * {
+  margin: 0 !important;
+}
