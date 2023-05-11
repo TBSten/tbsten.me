@@ -51,6 +51,14 @@ const PopupMenu: FC<PopupMenuProps> = () => {
                                 作ったもの
                             </Link>
                         </li>
+                        <li>
+                            <Link href="/monolog" className="btn w-full btn-ghost justify-start">
+                                <span className="mr-2 text-secondary">
+                                    😗
+                                </span>
+                                独り言
+                            </Link>
+                        </li>
                         <div className="divider" />
                         <li className="sticky bottom-0 bg-base-100 pb-4">
                             <Center>

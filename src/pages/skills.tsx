@@ -5,13 +5,16 @@ import LayoutContent from '@/components/layout/LayoutContent';
 import PageTitle from '@/components/layout/PageTitle';
 import { useSkills } from '@/skill/client';
 import { SkillCard } from '@/skill/components/SkillCard';
-import { NextPage } from 'next';
+import { getSkills } from '@/skill/server';
+import { Skill } from '@/skill/type';
+import { GetServerSideProps, NextPage } from 'next';
 import { FC } from 'react';
 
 interface Props {
+    skills: Skill[]
 }
-const SkillsPage: NextPage<Props> = ({ }) => {
-    const { skills, isLoading, } = useSkills()
+const SkillsPage: NextPage<Props> = ({ skills: defaultSkills }) => {
+    const { skills, isLoading, } = useSkills({ default: defaultSkills })
     return (
         <>
             <SkillsHead />
@@ -37,6 +40,12 @@ const SkillsPage: NextPage<Props> = ({ }) => {
 }
 export default SkillsPage;
 
+export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
+    const skills = await getSkills()
+    return {
+        props: { skills }
+    }
+}
 
 interface SkillsHeadProps {
 }
