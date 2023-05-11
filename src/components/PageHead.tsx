@@ -20,6 +20,8 @@ const PageHead: FC<PageHeadProps> = ({
                 {title}
             </title>
 
+            <meta name="description" content={description} />
+
             {/* ogp */}
             <meta property="og:url" content={`https://tbsten.me${path}`} />
             <meta property="og:title" content={title} />
