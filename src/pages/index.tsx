@@ -143,7 +143,7 @@ const Hero: FC<HeroProps> = () => {
             "bg-base-100 cursor-pointer p-2 rounded-xl hover:rounded-2xl overflow-visible hover:shadow-2xl",
             "active:scale-90",
             styles["balloon"],
-            "duration-300", isLoadingRandomMonolog ? "opacity-0 translate-y-12" : "opacity-100 translate-y-0",
+            "delay-700 duration-300", isLoadingRandomMonolog ? "opacity-0 translate-y-12" : "opacity-100 translate-y-0",
           )} onClick={handleCommand({ goto: `/monolog#${randomMonolog?.slug}`, damage: 10 })}>
             <div className="overflow-auto w-full h-full">
               <div className="font-bold font-dot">独り言</div>
