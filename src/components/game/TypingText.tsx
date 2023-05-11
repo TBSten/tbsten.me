@@ -1,11 +1,14 @@
+import { useDelayedValue } from "@/client/delayed";
 import { FC, useEffect, useState } from "react";
 
 interface TypingTextProps {
+    delay?: number
     interval?: number
     children: string
 }
-const TypingText: FC<TypingTextProps> = ({ children, interval = 200, }) => {
-    const [currentText, setCurrentText] = useState(children[0])
+const TypingText: FC<TypingTextProps> = ({ children, delay = 0, interval = 200, }) => {
+    const [_currentText, setCurrentText] = useState(children[0])
+    const currentText = useDelayedValue(delay, _currentText)
     useEffect(() => {
         const increment = setInterval(() => {
             setCurrentText(p => {

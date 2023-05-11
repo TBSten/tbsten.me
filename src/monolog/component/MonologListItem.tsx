@@ -1,4 +1,6 @@
+import { useCopy } from "@/client/copy";
 import Dialog, { useDialog } from "@/components/Dialog";
+import Loading from "@/components/Loading";
 import LoadingFallback from "@/components/LoadingFallback";
 import MarkdownText from "@/components/MarkdownText";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -47,6 +49,11 @@ const MonologListItem: FC<MonologListItemProps> = ({
         onChange && onChange(UpdateMonolog)
         editDialog.hide()
     })
+
+    const { copy, isCoping, isSuccess, isError } = useCopy()
+    const handleCopyUrl = () => {
+        copy(`https://tbsten.me/monolog#${monolog.slug}`)
+    }
     return (
         <>
             <div className="flex flex-col border border-primary text-primary p-2 my-4">
@@ -127,28 +134,42 @@ const MonologListItem: FC<MonologListItemProps> = ({
                                 </label>
                             </LoadingFallback>
                         </div>
-                        <div className="w-full flex justify-end gap-4">
+                        <div className="w-full flex flex-wrap justify-end gap-1 md:gap-4">
+                            <button className={classNames(
+                                "btn btn-outline btn-primary",
+                                { "btn-disabled": !monolog.isPublished },
+                            )} disabled={!monolog.isPublished} onClick={handleCopyUrl}>
+                                URLコピー
+                            </button>
                             {onDelete &&
                                 <LoadingFallback isLoading={!!isDeleting}>
                                     <button
-                                        className="btn btn-error"
-                                        onClick={deleteDialog.show}
+                                        className={classNames(
+                                            "btn btn-error",
+                                            { "btn-disabled": !editable }
+                                        )}
+                                        onClick={() => {
+                                            if (!editable) return
+                                            deleteDialog.show()
+                                        }}
                                         disabled={!editable && isDeleting}
                                     >削除</button>
                                 </LoadingFallback>
                             }
-                            {editable &&
-                                <LoadingFallback isLoading={!!isDeleting}>
-                                    <button
-                                        className="btn btn-secondary"
-                                        onClick={() => {
-                                            editDialog.show()
-                                            setValue("content", monolog.content)
-                                        }}
-                                        disabled={!editable && isDeleting}
-                                    >編集</button>
-                                </LoadingFallback>
-                            }
+                            <LoadingFallback isLoading={!!isDeleting}>
+                                <button
+                                    className={classNames(
+                                        "btn btn-secondary",
+                                        { "btn-disabled": !editable }
+                                    )}
+                                    onClick={() => {
+                                        if (!editable) return
+                                        editDialog.show()
+                                        setValue("content", monolog.content)
+                                    }}
+                                    disabled={!editable && isDeleting}
+                                >編集</button>
+                            </LoadingFallback>
                         </div>
                     </div>
                 </div>
@@ -198,6 +219,29 @@ const MonologListItem: FC<MonologListItemProps> = ({
                     <button className="btn btn-primary" onClick={handleSaveChange}>保存</button>
                 </div>
             </Dialog>
+
+            {/* toasts */}
+            {isCoping &&
+                <div className="toast toast-start toast-bottom">
+                    <div className="alert shadow alert-info">
+                        <Loading />
+                    </div>
+                </div>
+            }
+            {isSuccess &&
+                <div className="toast toast-start toast-bottom">
+                    <div className="alert shadow alert-success">
+                        URLをコピーしました!
+                    </div>
+                </div>
+            }
+            {isError &&
+                <div className="toast toast-start toast-bottom">
+                    <div className="alert shadow alert-error">
+                        コピーできませんでした...
+                    </div>
+                </div>
+            }
         </>
     );
 }

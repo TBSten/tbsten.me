@@ -117,7 +117,7 @@ export default LikesPage;
 import Flash from '@/components/game/Flash';
 import classNames from 'classnames';
 import Image from 'next/image';
-import { FC, ReactNode } from "react";
+import { FC } from "react";
 
 interface LikesHeadProps {
 }
@@ -134,7 +134,7 @@ export const LikesHead: FC<LikesHeadProps> = () => {
 
 interface SectionTitleProps {
     href: string
-    children: ReactNode
+    children: string
 }
 const SectionTitle: FC<SectionTitleProps> = ({
     href,
@@ -143,7 +143,7 @@ const SectionTitle: FC<SectionTitleProps> = ({
     return (
         <h2 className={classNames(
             "text-3xl text-primary relative group",
-        )}>
+        )} id={children}>
             <Link href={href} target='_blank' className='hover:link'>
                 <Flash className='w-fit'>
                     ▶︎{" "}

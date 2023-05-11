@@ -9,6 +9,7 @@ export const MonologSchema = z.object({
     updateAt: z.number(),
     isPublished: z.boolean(),
     publishAt: z.number().nullable(),
+    random: z.number(),
 })
 export type Monolog = z.infer<typeof MonologSchema>
 

@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import Link from "next/link";
 import { FC } from "react";
 import { BsStarFill } from "react-icons/bs";
@@ -12,7 +13,10 @@ const PopupMenu: FC<PopupMenuProps> = () => {
     return (
         <>
             <button
-                className="fixed top-0 left-0 btn btn-primary rounded-t-none rounded-bl-none origin-top-left"
+                className={classNames(
+                    "fixed left-0 btn btn-primary",
+                    "top-0 rounded-t-none rounded-bl-none origin-top-left ",
+                )}
                 onClick={toggle}
             >
                 MENU

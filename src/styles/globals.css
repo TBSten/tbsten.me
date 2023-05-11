@@ -14,7 +14,7 @@ body,
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: -100px;
+  scroll-padding-top: 4rem;
 }
 
 body {
@@ -46,4 +46,8 @@ svg {
     @apply shadow-none;
 
   }
+}
+
+.znc.compact * {
+  margin: 0 !important;
 }

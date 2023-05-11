@@ -14,6 +14,7 @@ export function useMarkdownToHtml(markdown: string) {
                 body: markdown,
             })
                 .then(r => r.text()),
+        staleTime: 3600 * 1000,
     })
     return { html, isLoading }
 }

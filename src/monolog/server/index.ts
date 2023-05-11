@@ -14,6 +14,7 @@ export const addMonolog = async (input: NewMonolog) => {
         updateAt: now,
         publishAt: null,
         isPublished: false,
+        random: Math.random(),
     }
     await monologCollection.doc(slug).create(newMonolog)
     return await getMonolog(slug)
@@ -38,6 +39,7 @@ export const updateMonolog = async (slug: string, input: UpdateMonolog) => {
     } else if (input.type === "update") {
         updateMonolog.content = input.content
     } else throw new Error(`invalid update monolog type : ${JSON.stringify(input)}`)
+    updateMonolog.random = Math.random()
     await monologCollection.doc(slug).update(updateMonolog)
 
     return await getMonolog(slug)
@@ -47,11 +49,12 @@ export const deleteMonolog = async (slug: string) => {
     await monologCollection.doc(slug).delete()
 }
 
-export const getMonologList = async ({ dir = "desc", sortBy = "publishAt", filter, }: {
+export interface MonologListOption {
     dir?: "desc" | "asc"
     sortBy?: "publishAt" | "createAt"
     filter?: string
-} = {}) => {
+}
+export const getMonologList = async ({ dir = "desc", sortBy = "publishAt", filter, }: MonologListOption = {}) => {
     let ref = monologCollection.orderBy(sortBy, dir)
     if (filter) {
         switch (filter) {
@@ -64,4 +67,29 @@ export const getMonologList = async ({ dir = "desc", sortBy = "publishAt", filte
     }
     const snap = await ref.get()
     return snap.docs.map(d => d.data())
+}
+
+export const getRandomMonolog = async (): Promise<Monolog> => {
+    let tryCount = 1
+    while (true) {
+        const onlyPublic = monologCollection
+            .where("isPublished", "==", true)
+        const monologs = await onlyPublic
+            .where("random", ">=", Math.random())
+            .limit(1)
+            .get()
+        const monolog = monologs.docs[0]?.data()
+        if (monolog) {
+            return monolog
+        }
+        console.log("random retry", tryCount)
+        tryCount++
+        if (tryCount >= 10) {
+            console.log("can not select")
+            const monologs = await onlyPublic.get()
+            const monolog = monologs.docs[0]?.data()
+            if (!monolog) throw new Error(`can not select monolog ${JSON.stringify(monolog)}`)
+            return monolog
+        }
+    }
 }
