@@ -40,7 +40,7 @@ const Top: NextPage<Props> = () => {
       <TopHead />
       <div className="w-full h-full relative scroll-smooth scroll-p-10">
         <Image
-          className="w-full h-full fixed top-0 left-0 right-0 bottom-0 -z-50 blur-md object-cover overflow-visible brightness-90 bg-base-300"
+          className="w-full h-full fixed top-0 left-0 right-0 bottom-0 -z-50 blur-md object-cover overflow-visible brightness-90 bg-[#c9e9ea]"
           src={TBStenImg}
           alt="TBSten icon"
           width={500}
@@ -163,7 +163,7 @@ const Hero: FC<HeroProps> = () => {
           }
           <Image
             className={classNames(
-              "w-full h-auto max-h-[60vh] object-contain md:h-64 md:w-auto rounded-md",
+              "w-full h-auto max-h-[40vh] object-contain md:h-64 md:w-auto rounded-md",
               {
                 [styles["animate-icon"]]: hittingDamage !== null,
                 "opacity-50": knocked,

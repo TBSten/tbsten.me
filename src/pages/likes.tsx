@@ -53,15 +53,17 @@ const SectionTitle: FC<SectionTitleProps> = ({
     href,
     children,
 }) => {
-    const content = <>
+    const content = <div className="w-full flex flex-row items-center justify-center">
         <Flash className='w-fit'>
             ▶︎{" "}
         </Flash>
-        {children}
+        <div className="flex-grow">
+            {children}
+        </div>
         <Flash className='w-fit'>
             {" "}◀︎
         </Flash>
-    </>
+    </div>
     return (
         <h2 className={classNames(
             "text-3xl text-primary relative group text-center mt-4 md:mt-12 mb-2 md:mb-4",
@@ -122,7 +124,7 @@ const ZtmySection: FC<ZtmySectionProps> = () => {
                     という楽曲。<br />
                     ミュージックビデオ公開の16秒後にYoutubeのおすすめに出てきて運命を感じた。
                 </p>
-                <div className="w-full flex overflow-x-auto gap-2 p-4">
+                <div className="w-full flex overflow-x-auto gap-2 py-4 md:p-4">
                     <iframe className='flex-shrink-0' width="560" height="315" src="https://www.youtube.com/embed/ZUwaudw8ht0" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
                 </div>
                 <p>
@@ -138,8 +140,10 @@ const ZtmySection: FC<ZtmySectionProps> = () => {
                     </Link>
                     。
                 </p>
-                <div className="w-full flex overflow-x-auto gap-2 p-4">
+                <div className="w-full flex overflow-x-auto gap-2 py-4 md:p-4">
                     <iframe className='flex-shrink-0' width="560" height="315" src="https://www.youtube.com/embed/ZUwaudw8ht0" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+                </div>
+                <div className="w-full flex overflow-x-auto gap-2 py-4 md:p-4">
                     <iframe className='flex-shrink-0' width="560" height="315" src="https://www.youtube.com/embed/I88PrE-KUPk" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
                 </div>
                 <p>
@@ -183,7 +187,7 @@ const EngineerChannel: FC<EngineerChannelProps> = () => {
                     </Link>
                     のTwitterスペースに現れてはリプライを飛ばしています。
                 </p>
-                <div className="w-full flex overflow-x-auto gap-2 p-4">
+                <div className="w-full flex overflow-x-auto gap-2 py-4 md:p-4">
                     <iframe className='flex-shrink-0' width="560" height="315" src="https://www.youtube.com/embed/pDWgh-EpYck" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
                 </div>
             </div>

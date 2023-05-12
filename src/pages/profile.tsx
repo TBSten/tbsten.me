@@ -83,15 +83,19 @@ const ProfilePage: NextPage<Props> = ({ }) => {
                     </div>
                 </LayoutContent>
                 <LayoutContent>
-                    <div className="text-center link link-primary text-3xl my-4 md:my-12">
+                    <div className="text-center text-primary text-3xl my-4 md:my-12">
                         <Link href="/likes">
-                            <Flash>
-                                ▶︎{" "}
-                            </Flash>
-                            好きなものはこちら
-                            <Flash>
-                                {" "}◀︎
-                            </Flash>
+                            <div className="w-full flex flex-row items-center justify-center">
+                                <Flash>
+                                    ▶︎{" "}
+                                </Flash>
+                                <div className="link link-primary flex-grow">
+                                    好きなものはこちら
+                                </div>
+                                <Flash>
+                                    {" "}◀︎
+                                </Flash>
+                            </div>
                         </Link>
                     </div>
                 </LayoutContent>
