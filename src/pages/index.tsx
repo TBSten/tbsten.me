@@ -146,7 +146,7 @@ const Hero: FC<HeroProps> = () => {
             "delay-700 duration-300", isLoadingRandomMonolog ? "opacity-0 translate-y-12" : "opacity-100 translate-y-0",
           )} onClick={handleCommand({ goto: `/monolog#${randomMonolog?.slug}`, damage: 10 })}>
             <div className="overflow-auto w-full h-full">
-              <div className="font-bold font-dot">独り言</div>
+              <div className="font-bold font-dot text-center">独り言</div>
               {randomMonolog &&
                 <MarkdownText
                   markdown={randomMonolog.content}
