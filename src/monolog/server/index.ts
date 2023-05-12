@@ -69,27 +69,29 @@ export const getMonologList = async ({ dir = "desc", sortBy = "publishAt", filte
     return snap.docs.map(d => d.data())
 }
 
-export const getRandomMonolog = async (): Promise<Monolog> => {
-    let tryCount = 1
-    while (true) {
-        const onlyPublic = monologCollection
-            .where("isPublished", "==", true)
-        const monologs = await onlyPublic
-            .where("random", ">=", Math.random())
-            .limit(1)
-            .get()
-        const monolog = monologs.docs[0]?.data()
-        if (monolog) {
-            return monolog
-        }
-        console.log("random retry", tryCount)
-        tryCount++
-        if (tryCount >= 10) {
-            console.log("can not select")
-            const monologs = await onlyPublic.get()
-            const monolog = monologs.docs[0]?.data()
-            if (!monolog) throw new Error(`can not select monolog ${JSON.stringify(monolog)}`)
-            return monolog
-        }
-    }
+export const getRandomMonolog = async (): Promise<Monolog | null> => {
+    if (Math.random() <= 0.3) return null
+    // let tryCount = 1
+    // while (true) {
+    const onlyPublic = monologCollection
+        .where("isPublished", "==", true)
+    const monologs = await onlyPublic
+        .where("random", ">=", Math.random())
+        .limit(1)
+        .get()
+    const monolog = monologs.docs[0]?.data()
+    return monolog ?? null
+    // if (monolog) {
+    //     return monolog
+    // }
+    // console.log("random retry", tryCount)
+    // tryCount++
+    // if (tryCount >= 10) {
+    //     console.log("can not select")
+    //     const monologs = await onlyPublic.get()
+    //     const monolog = monologs.docs[0]?.data()
+    //     if (!monolog) throw new Error(`can not select monolog ${JSON.stringify(monolog)}`)
+    //     return monolog
+    // }
+    // }
 }

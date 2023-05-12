@@ -75,7 +75,7 @@ export function useRandomMonolog() {
         queryKey: ["monolog", "random"],
         queryFn: () => fetch("/api/monolog/random")
             .then(r => r.json())
-            .then(r => MonologSchema.parse(r)),
+            .then(r => MonologSchema.nullable().parse(r)),
         staleTime: 30 * 1000,
     })
     return { monolog, isLoading } as const

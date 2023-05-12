@@ -133,31 +133,34 @@ const Hero: FC<HeroProps> = () => {
   const delayedIsLoadImage = useDelayedValue(500, isLoadedImage)
 
   const { isLoading: isLoadingRandomMonolog, monolog: randomMonolog } = useRandomMonolog()
+  const showRandomMonolog = isLoadingRandomMonolog || randomMonolog
   return (
     <div className="my-8 overflow-hidden">
-      <div className="flex flex-col md:flex-row justify-center items-center gap-4 p-8 mt-[150px] my-8">
+      <div className="flex flex-col md:flex-row justify-center items-center gap-4 p-8 mt-[150px] md:mb-[100px] my-8">
         <div className="relative">
-          <div className={classNames(
-            "absolute bottom-[calc(100%+0.5rem)] left-[-1.5rem] right-[-1.5rem] w-[calc(100%+1.5rem*2)] h-[150px]",
-            "md:left-[-3rem] md:right-[-3rem] md:w-[calc(100%+3rem*2)]",
-            "bg-base-100 cursor-pointer p-2 rounded-xl hover:rounded-2xl overflow-visible hover:shadow-2xl",
-            "active:scale-90",
-            styles["balloon"],
-            "delay-700 duration-300", isLoadingRandomMonolog ? "opacity-0 translate-y-12" : "opacity-100 translate-y-0",
-          )} onClick={handleCommand({ goto: `/monolog#${randomMonolog?.slug}`, damage: 10 })}>
-            <div className="overflow-auto w-full h-full">
-              <div className="font-bold font-dot text-center">独り言</div>
-              {randomMonolog &&
-                <MarkdownText
-                  markdown={randomMonolog.content}
-                  compact
-                />
-              }
-              <div className="absolute bottom-1 right-1 px-0.5 md:px-3 link link-primary bg-white rounded">
-                詳しく
+          {showRandomMonolog &&
+            <div className={classNames(
+              "absolute bottom-[calc(100%+0.5rem)] left-[-1.5rem] right-[-1.5rem] w-[calc(100%+1.5rem*2)] h-[150px]",
+              "md:left-[-3rem] md:right-[-3rem] md:w-[calc(100%+3rem*2)]",
+              "bg-base-100 cursor-pointer p-2 rounded-xl hover:rounded-2xl overflow-visible hover:shadow-2xl",
+              "active:scale-90",
+              styles["balloon"],
+              "transition-[opacity,transform,all] delay-[700ms,700ms,0s] duration-[300ms,300ms,300ms]", isLoadingRandomMonolog ? "opacity-0 translate-y-12" : "opacity-100 translate-y-0",
+            )} onClick={handleCommand({ goto: `/monolog#${randomMonolog?.slug}`, damage: 10 })}>
+              <div className="overflow-auto w-full h-full">
+                <div className="font-bold font-dot text-center sticky top-0 bg-base-100 w-full z-10">独り言</div>
+                {randomMonolog &&
+                  <MarkdownText
+                    markdown={randomMonolog.content}
+                    compact
+                  />
+                }
+                <div className="absolute bottom-1 right-1 px-0.5 md:px-3 link link-primary bg-white rounded">
+                  詳しく
+                </div>
               </div>
             </div>
-          </div>
+          }
           <Image
             className={classNames(
               "w-full h-auto max-h-[60vh] object-contain md:h-64 md:w-auto rounded-md",
