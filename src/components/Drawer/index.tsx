@@ -26,7 +26,8 @@ const Drawer: FC<DrawerProps> = ({ open, onClose, children }) => {
             {/* content */}
             <div className={classNames(
                 "absolute left-0 top-0", duration,
-                "w-full max-w-full h-fit max-h-fit md:w-fit md:max-w-full md:h-full md:max-h-full",
+                "max-w-full max-h-full overflow-auto",
+                "w-full md:w-fit",
                 {
                     "md:translate-x-0 translate-y-0": open,
                     "md:-translate-x-8 translate-y-1": !open,
