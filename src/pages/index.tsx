@@ -153,7 +153,7 @@ const Hero: FC<HeroProps> = () => {
                   compact
                 />
               }
-              <div className="absolute bottom-1 right-1 px-0.5 link link-primary bg-white rounded">
+              <div className="absolute bottom-1 right-1 px-0.5 md:px-3 link link-primary bg-white rounded">
                 詳しく
               </div>
             </div>
@@ -272,7 +272,7 @@ const Hero: FC<HeroProps> = () => {
           >
             作ったものを見る
           </CommandButton>
-          <CommandButton key="work"
+          <CommandButton key="like"
             startIcon={
               "😍"
             }
