@@ -270,7 +270,15 @@ const Hero: FC<HeroProps> = () => {
             }
             onClick={handleCommand({ goto: "/works" })}
           >
-            作ったものを聞く
+            作ったものを見る
+          </CommandButton>
+          <CommandButton key="work"
+            startIcon={
+              "😍"
+            }
+            onClick={handleCommand({ goto: "/likes" })}
+          >
+            好きなものを見る
           </CommandButton>
           <CommandButton key="monolog"
             startIcon={

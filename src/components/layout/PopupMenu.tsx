@@ -56,6 +56,14 @@ const PopupMenu: FC<PopupMenuProps> = () => {
                             </Link>
                         </li>
                         <li>
+                            <Link href="/likes" className="btn w-full btn-ghost justify-start">
+                                <span className="mr-2 text-secondary">
+                                    😍
+                                </span>
+                                好きなもの
+                            </Link>
+                        </li>
+                        <li>
                             <Link href="/monolog" className="btn w-full btn-ghost justify-start">
                                 <span className="mr-2 text-secondary">
                                     😗
