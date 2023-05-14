@@ -3,7 +3,6 @@ import TBStenDeadImg from "@/../public/tbsten-2.png";
 import TBStenImg from "@/../public/tbsten500x500.png";
 import { useDelayedValue } from "@/client/delayed";
 import Dialog, { useDialog } from "@/components/Dialog";
-import MarkdownText from "@/components/MarkdownText";
 import PageHead from "@/components/PageHead";
 import CommandButton from "@/components/game/CommandButton";
 import GameBox from "@/components/game/GameBox";
@@ -19,7 +18,6 @@ import Container from "@/components/layout/Container";
 import Footer from "@/components/layout/Footer";
 import PopupMenu from "@/components/layout/PopupMenu";
 import { useHelloEffect } from "@/components/useHelloEffect";
-import { useRandomMonolog } from "@/monolog/client";
 import classNames from "classnames";
 import { motion } from "framer-motion";
 import { NextPage } from "next";
@@ -51,7 +49,7 @@ const Top: NextPage<Props> = () => {
         />
 
         <h1 className="w-full flex justify-center text-center my-2">
-          <Link href="/" className="btn btn-primary btn-wide btn-outline text-3xl">
+          <Link href="/" className="btn btn-primary btn-wide btn-ghost md:btn-outline text-3xl">
             TBSten
           </Link>
         </h1>
@@ -130,37 +128,12 @@ const Hero: FC<HeroProps> = () => {
   const knockedDialog = useDialog()
 
   const [isLoadedImage, setIsLooadedImage] = useState(false)
-  const delayedIsLoadImage = useDelayedValue(500, isLoadedImage)
+  const delayedIsLoadImage = useDelayedValue(1000, isLoadedImage)
 
-  const { isLoading: isLoadingRandomMonolog, monolog: randomMonolog } = useRandomMonolog()
-  const showRandomMonolog = isLoadingRandomMonolog || randomMonolog
   return (
     <div className="my-8 overflow-hidden ">
-      <div className="flex flex-col md:flex-row justify-center items-center gap-4 p-8 mt-[150px] md:mb-[100px] my-8">
-        <div className="relative">
-          {showRandomMonolog &&
-            <div className={classNames(
-              "absolute bottom-[calc(100%+0.5rem)] left-[-1.5rem] right-[-1.5rem] w-[calc(100%+1.5rem*2)] h-[150px]",
-              "md:left-[-3rem] md:right-[-3rem] md:w-[calc(100%+3rem*2)]",
-              "bg-base-100 cursor-pointer p-2 rounded-xl hover:rounded-2xl overflow-visible shadow-xl hover:shadow-2xl",
-              "active:scale-90",
-              styles["balloon"],
-              "transition-[opacity,transform,all] delay-[700ms,700ms,0s] duration-[300ms,300ms,300ms]", isLoadingRandomMonolog ? "opacity-0 translate-y-12" : "opacity-100 translate-y-0",
-            )} onClick={handleCommand({ goto: `/monolog#${randomMonolog?.slug}`, damage: 10 })}>
-              <div className="overflow-auto w-full h-full">
-                <div className="font-bold font-dot text-center sticky top-0 bg-base-100 w-full z-10">独り言</div>
-                {randomMonolog &&
-                  <MarkdownText
-                    markdown={randomMonolog.content}
-                    compact
-                  />
-                }
-                <div className="absolute bottom-1 right-1 px-0.5 md:px-3 link link-primary bg-white rounded">
-                  詳しく
-                </div>
-              </div>
-            </div>
-          }
+      <div className="flex flex-col md:flex-row justify-center items-center gap-4 p-4 md:p-8 mt-16 my-8">
+        <div className="relative p-6">
           <Image
             className={classNames(
               "w-full h-auto max-h-[40vh] object-contain md:h-64 md:w-auto rounded-md",
@@ -174,7 +147,7 @@ const Hero: FC<HeroProps> = () => {
             width={500}
             height={500}
             onAnimationEnd={() => setHittingDamage(null)}
-            priority={false}
+            priority
             onLoad={() => setIsLooadedImage(true)}
           />
           <div className="absolute -bottom-6 left-0 right-0 w-full px-4" >
@@ -188,7 +161,7 @@ const Hero: FC<HeroProps> = () => {
             />
           </div>
         </div>
-        <div className="">
+        <div className="mt-12 md:m-0">
           <h2 className="font-dot text-5xl text-primary text-center my-2">
             <div className={classNames(
               "duration-500",
