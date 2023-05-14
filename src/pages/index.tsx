@@ -1,3 +1,4 @@
+import BgImg from "@/../public/bg.png";
 import TBStenDeadImg from "@/../public/tbsten-2.png";
 import TBStenImg from "@/../public/tbsten500x500.png";
 import { useDelayedValue } from "@/client/delayed";
@@ -40,14 +41,13 @@ const Top: NextPage<Props> = () => {
       <TopHead />
       <div className="w-full h-full relative scroll-smooth scroll-p-10">
         <Image
-          className="w-full h-full fixed top-0 left-0 right-0 bottom-0 -z-50 blur-md object-cover overflow-visible brightness-90 bg-[#c9e9ea]"
-          src={TBStenImg}
-          alt="TBSten icon"
+          className="w-full h-full fixed top-0 left-0 right-0 bottom-0 -z-50 object-cover overflow-visible bg-base-100 blur duration-300 "
+          src={BgImg}
+          alt="TBSten"
           width={500}
           height={500}
           priority={false}
           quality={20}
-          placeholder="blur"
         />
 
         <h1 className="w-full flex justify-center text-center my-2">
@@ -135,14 +135,14 @@ const Hero: FC<HeroProps> = () => {
   const { isLoading: isLoadingRandomMonolog, monolog: randomMonolog } = useRandomMonolog()
   const showRandomMonolog = isLoadingRandomMonolog || randomMonolog
   return (
-    <div className="my-8 overflow-hidden">
+    <div className="my-8 overflow-hidden ">
       <div className="flex flex-col md:flex-row justify-center items-center gap-4 p-8 mt-[150px] md:mb-[100px] my-8">
         <div className="relative">
           {showRandomMonolog &&
             <div className={classNames(
               "absolute bottom-[calc(100%+0.5rem)] left-[-1.5rem] right-[-1.5rem] w-[calc(100%+1.5rem*2)] h-[150px]",
               "md:left-[-3rem] md:right-[-3rem] md:w-[calc(100%+3rem*2)]",
-              "bg-base-100 cursor-pointer p-2 rounded-xl hover:rounded-2xl overflow-visible hover:shadow-2xl",
+              "bg-base-100 cursor-pointer p-2 rounded-xl hover:rounded-2xl overflow-visible shadow-xl hover:shadow-2xl",
               "active:scale-90",
               styles["balloon"],
               "transition-[opacity,transform,all] delay-[700ms,700ms,0s] duration-[300ms,300ms,300ms]", isLoadingRandomMonolog ? "opacity-0 translate-y-12" : "opacity-100 translate-y-0",
@@ -189,7 +189,7 @@ const Hero: FC<HeroProps> = () => {
           </div>
         </div>
         <div className="">
-          <h2 className="font-dot text-5xl text-white text-center my-2">
+          <h2 className="font-dot text-5xl text-primary text-center my-2">
             <div className={classNames(
               "duration-500",
               delayedIsLoadImage ? "opacity-100" : "opacity-0",
@@ -370,17 +370,17 @@ const HeroHpGage: FC<HeroHpGageProps> = ({ hp, maxHp }) => {
   return (
     <div className="relative ">
       {/* gage */}
-      <div className="h-3 w-full bg-gray-800 overflow-hidden rounded-full relative">
+      <div className="h-3 w-full bg-base-300 overflow-hidden rounded-full relative">
         <div className="absolute left-0 h-full bg-primary transition-all duration-700" style={{
           width: `${hp / maxHp * 100}%`,
         }} />
       </div>
       {/* hp text */}
-      <div className="absolute right-2 bottom-0 z-10 font-dot text ">
-        <span className="text-3xl text-slate-200 bg-clip-text font-bold">
+      <div className="absolute right-2 bottom-0 z-10 font-dot text-base-content ">
+        <span className="text-3xl bg-clip-text ">
           {hp}
         </span>
-        <span className="text-xl text-slate-200">
+        <span className="text-xl">
           /{maxHp}
         </span>
       </div>
