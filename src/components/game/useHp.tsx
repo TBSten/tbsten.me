@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from "react"
 
 const HP_STOREJS_KEY = "tbsten__hp"
+const DEFAULT_HP = 250
 export function useHp(props: {
     onKnock?: () => void,
 } = {}) {
-    const [maxHp, setMaxHp] = useState(200)
+    const [maxHp, setMaxHp] = useState(DEFAULT_HP)
     const [hp, setHp] = useState(maxHp)
 
     const save = useCallback((newHp: number = hp) => {

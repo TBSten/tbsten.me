@@ -1,10 +1,12 @@
 import PageHead from '@/components/PageHead';
+import Flash from '@/components/game/Flash';
 import Choice from '@/components/game/choice/Choice';
 import Choices from '@/components/game/choice/Choices';
 import BasicLayout from '@/components/layout/BasicLayout';
 import LayoutContent from '@/components/layout/LayoutContent';
 import PageTitle from '@/components/layout/PageTitle';
 import { NextPage } from 'next';
+import Link from 'next/link';
 import { FC } from 'react';
 
 interface Props {
@@ -78,6 +80,23 @@ const ProfilePage: NextPage<Props> = ({ }) => {
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                </LayoutContent>
+                <LayoutContent>
+                    <div className="text-center text-primary text-3xl my-4 md:my-12">
+                        <Link href="/likes">
+                            <div className="w-full flex flex-row items-center justify-center">
+                                <Flash>
+                                    ▶︎{" "}
+                                </Flash>
+                                <div className="link link-primary flex-grow">
+                                    好きなものはこちら
+                                </div>
+                                <Flash>
+                                    {" "}◀︎
+                                </Flash>
+                            </div>
+                        </Link>
                     </div>
                 </LayoutContent>
             </BasicLayout>
