@@ -3,6 +3,7 @@ import { FC, ReactNode } from "react";
 import Footer from "./Footer";
 import Header from "./Header";
 import PopupMenu from "./PopupMenu";
+import RouteChangeAnimation from "./RouteChangeAnimation";
 
 interface BasicLayoutProps {
     className?: string
@@ -16,6 +17,7 @@ const BasicLayout: FC<BasicLayoutProps> = ({ headerAction, className, children }
             className,
         )}>
             <Header action={headerAction} />
+            <RouteChangeAnimation />
             {children}
             <Footer />
             <PopupMenu />

@@ -14,7 +14,7 @@ const PopupMenu: FC<PopupMenuProps> = () => {
         <>
             <button
                 className={classNames(
-                    "fixed left-0 btn btn-primary",
+                    "fixed left-0 btn btn-secondary z-20",
                     "top-0 rounded-t-none rounded-bl-none origin-top-left ",
                 )}
                 onClick={toggle}

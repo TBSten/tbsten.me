@@ -17,6 +17,7 @@ import ZennIcon from "@/components/icon/ZennIcon";
 import Container from "@/components/layout/Container";
 import Footer from "@/components/layout/Footer";
 import PopupMenu from "@/components/layout/PopupMenu";
+import RouteChangeAnimation from "@/components/layout/RouteChangeAnimation";
 import { useHelloEffect } from "@/components/useHelloEffect";
 import classNames from "classnames";
 import { motion } from "framer-motion";
@@ -53,6 +54,8 @@ const Top: NextPage<Props> = () => {
             TBSten
           </Link>
         </h1>
+
+        <RouteChangeAnimation />
 
         <Hero />
 
