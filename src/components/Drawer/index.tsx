@@ -10,7 +10,7 @@ const Drawer: FC<DrawerProps> = ({ open, onClose, children }) => {
     const duration = "duration-300"
     return (
         <div className={classNames(
-            "fixed left-0 top-0 w-screen h-screen z-30", duration,
+            "fixed left-0 top-0 w-screen h-screen z-50", duration,
             {
                 "visible opacity-100": open,
                 "invisible opacity-0": !open,

@@ -74,20 +74,25 @@ interface SkillCardPrimaryTagsProps {
     assessment: Skill["assessment"]
     assessmentMax: Skill["assessmentMax"]
     interest: Skill["interest"]
+    disableAssessment?: boolean
+    disableInterest?: boolean
 }
 export const SkillCardPrimaryTags: FC<SkillCardPrimaryTagsProps> = ({
     assessment,
     assessmentMax,
     interest,
+    disableAssessment = false, disableInterest = false,
 }) => {
     return (
         <>
-            <div className="badge badge-outline badge-secondary">
-                <AssessmentStars
-                    {...{ assessment, assessmentMax }}
-                />
-            </div>
-            {interest &&
+            {!disableAssessment &&
+                <div className="badge badge-outline badge-secondary">
+                    <AssessmentStars
+                        {...{ assessment, assessmentMax }}
+                    />
+                </div>
+            }
+            {!disableInterest && interest &&
                 <div className="badge badge-primary">興味あり</div>
             }
         </>

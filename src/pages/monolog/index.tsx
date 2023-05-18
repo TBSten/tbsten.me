@@ -128,21 +128,21 @@ const MonologCard: FC<MonologCardProps> = ({ monolog, selected = false }) => {
             </div>
 
             {isCoping &&
-                <div className="toast toast-start toast-bottom">
+                <div className="toast toast-start toast-bottom z-50">
                     <div className="alert shadow alert-info">
                         <Loading />
                     </div>
                 </div>
             }
             {isSuccess &&
-                <div className="toast toast-start toast-bottom">
+                <div className="toast toast-start toast-bottom z-50">
                     <div className="alert shadow alert-success">
                         URLをコピーしました!
                     </div>
                 </div>
             }
             {isError &&
-                <div className="toast toast-start toast-bottom">
+                <div className="toast toast-start toast-bottom z-50">
                     <div className="alert shadow alert-error">
                         コピーできませんでした...
                     </div>
