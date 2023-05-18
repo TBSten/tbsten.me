@@ -40,6 +40,7 @@ export const SkillsEditor: FC<SkillsEditorProps> = ({
             interest: false,
             assessment: 0,
             assessmentMax: 4,
+            learnStartYear: new Date().getFullYear(),
         }])
     }
     const handleShift = (from: number, dir: "prev" | "next") => {
@@ -85,6 +86,7 @@ export const SkillsEditor: FC<SkillsEditorProps> = ({
                         const key = `skills.${i}.interest` as const
                         setValue(key, !watch(key))
                     }}
+                    onChangeLearnStartYear={(learnStartYear) => setValue(`skills.${i}.learnStartYear`, learnStartYear)}
                     onNewTag={handleNewTag(i)}
                     onChangeTag={handleChangeTag(i)}
                     onDeleteTag={handleDeleteTag(i)}
