@@ -1,6 +1,9 @@
+import { useResource } from "@/resource/client";
+import { Resource } from "@/resource/type";
 import { useUpload } from "@/upload/client";
 import classNames from "classnames";
 import Image, { ImageProps } from "next/image";
+import Link from "next/link";
 import { FC, ReactNode, useState } from "react";
 import Dialog, { DialogProps, useDialog } from "./Dialog";
 import Loading from "./Loading";
@@ -25,6 +28,8 @@ const ImageEditor: FC<ImageEditorProps> = ({
 }) => {
     const { upload, isUploading, url } = useUpload()
     const [tab, setTab] = useState<"upload" | "select">("upload")
+    const { resources } = useResource()
+    const [selectedRes, setSelectedRes] = useState<null | Resource>(null)
     return (
         <>
             <Dialog {...dialogProps}>
@@ -63,9 +68,37 @@ const ImageEditor: FC<ImageEditorProps> = ({
                         </div>
                     }
                     {tab === "select" &&
-                        <div className="my-2">
-                            coming soon ...
-                        </div>
+                        <>
+                            <div className="my-2 max-h-[40vh] overflow-auto ">
+                                {resources?.map(res =>
+                                    <div key={res.publicUrl}
+                                        className={classNames(
+                                            "p-2 flex gap-1 md:gap-3 border hover:border-secondary  cursor-pointer",
+                                            selectedRes === res ? "border-secondary" : "border-transparent"
+                                        )}
+                                        onClick={() => setSelectedRes(res)}
+                                    >
+                                        {res.mime?.match(/^image\/(.*)$/) &&
+                                            <Image
+                                                className="object-contain inline"
+                                                src={res.publicUrl}
+                                                alt={res.name}
+                                                width={30}
+                                                height={30}
+                                            />
+                                        }
+                                        <span className="flex-grow break-all">
+                                            {res.name}
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
+                            <div className="px-4 md:px-8 w-full flex justify-center my-2">
+                                <Link className="btn btn-outline btn-sm" href="/admin/resource">
+                                    公開リソースの管理
+                                </Link>
+                            </div>
+                        </>
                     }
                 </div>
                 <div className="modal-action">
@@ -74,7 +107,12 @@ const ImageEditor: FC<ImageEditorProps> = ({
                     </button>
                     <button className="btn btn-secondary min-w-[100px]" onClick={() => {
                         dialogProps.onClose()
-                        onChange(url)
+                        if (tab === "upload") {
+                            onChange(url)
+                        }
+                        if (tab === "select" && selectedRes) {
+                            onChange(selectedRes.publicUrl)
+                        }
                     }}>
                         OK
                     </button>

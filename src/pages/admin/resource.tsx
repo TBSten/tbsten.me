@@ -4,11 +4,11 @@ import Dialog, { useDialog } from '@/components/Dialog';
 import BasicLayout from '@/components/layout/BasicLayout';
 import LayoutContent from '@/components/layout/LayoutContent';
 import PageTitle from '@/components/layout/PageTitle';
+import { useResource } from '@/resource/client';
 import { getResources } from '@/resource/server';
-import { Resource, ResourceSchema } from '@/resource/type';
+import { Resource } from '@/resource/type';
 import { ssrOf } from '@/server/ssr';
 import { useUpload } from '@/upload/client';
-import { useMutation, useQuery } from '@tanstack/react-query';
 import { GetServerSideProps, NextPage } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -20,23 +20,12 @@ interface Props {
     resources: Resource[]
 }
 const AdminResourcePage: NextPage<Props> = ({ resources: defaultResources }) => {
-    const { data: resources, refetch: refreshResources } = useQuery({
-        queryKey: ["resources"],
-        queryFn: () =>
-            fetch("/api/resource")
-                .then(r => r.json())
-                .then(r => ResourceSchema.array().parse(r)),
-        initialData: defaultResources,
-    })
+    const { resources, refresh: refreshResources, deleteResource } = useResource({ init: defaultResources })
     const upload = useUpload()
-    const { mutateAsync: deleteResource } = useMutation({
-        mutationFn: async ({ name }: Resource) => {
-            await fetch(`/api/resource?path=${name}`, {
-                method: "DELETE",
-            }).then(r => r.json())
-            refreshResources()
-        }
-    })
+    const handleUpload = async () => {
+        await upload.upload()
+        refreshResources()
+    }
     const handleDelete = (res: Resource) => async () => {
         await deleteResource(res)
         refreshResources()
@@ -52,14 +41,14 @@ const AdminResourcePage: NextPage<Props> = ({ resources: defaultResources }) => 
             </LayoutContent>
             <LayoutContent className='bg-base-200'>
                 <div className="px-4 md:px-8 flex justify-center">
-                    <button className="btn btn-primary btn-wide" onClick={() => upload.upload()}>
+                    <button className="btn btn-primary btn-wide" onClick={handleUpload}>
                         追加
                     </button>
                 </div>
             </LayoutContent>
             <LayoutContent className='bg-base-200'>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-1 md:gap-4">
-                    {resources.map(res =>
+                    {resources?.map(res =>
                         <div key={res.publicUrl}>
                             <ResourceListItem
                                 resource={res}
@@ -154,11 +143,6 @@ const ResourceListItem: FC<ResourceListItemProps> = ({ resource: { name, publicU
                             }
                         </tbody>
                     </table>
-                </div>
-                <div className="my-4 flex justify-end">
-                    <button className="btn btn-secondary">
-                        ダウンロード
-                    </button>
                 </div>
                 <div className="mt-2 flex justify-between">
                     <button className="btn btn-sm btn-error" onClick={() => deleteConfirm.confirm()}>

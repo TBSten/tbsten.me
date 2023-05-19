@@ -3,9 +3,6 @@ import { apiRouteOf } from "@/server/apiRoute";
 import { z } from "zod";
 
 export default apiRouteOf({
-    cors: {
-        method: ["GET"],
-    },
     async onGet({ req, res }) {
         const links = await getResources()
         return res.json(links)
