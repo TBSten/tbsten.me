@@ -1,3 +1,4 @@
+import { useHash } from '@/client/hash';
 import Center from '@/components/Center';
 import Loading from '@/components/Loading';
 import PageHead from '@/components/PageHead';
@@ -10,7 +11,7 @@ import { getSkills } from '@/skill/server';
 import { Skill } from '@/skill/type';
 import classNames from 'classnames';
 import { GetServerSideProps, NextPage } from 'next';
-import React, { FC, ReactNode, useMemo, useState } from 'react';
+import React, { FC, ReactNode, useEffect, useMemo, useState } from 'react';
 
 interface Props {
     skills: Skill[]
@@ -18,6 +19,15 @@ interface Props {
 const SkillsPage: NextPage<Props> = ({ skills: defaultSkills }) => {
     const [tab, setTab] = useState<"all" | "history">("all")
     const { skills, isLoading, } = useSkills({ default: defaultSkills })
+    const hash = useHash()
+    useEffect(() => {
+        if (hash && !isNaN(parseInt(hash))) {
+            setTab("history")
+            setTimeout(() => {
+                document.getElementById(hash)?.scrollIntoView()
+            }, 50)
+        }
+    }, [hash])
     return (
         <>
             <SkillsHead />
@@ -148,7 +158,7 @@ const SkillsHistorySection: FC<SkillsHistorySectionProps> = ({ skills, isLoading
 
                 {groupedByYear.map(([year, skills], idx) =>
                     <React.Fragment key={year}>
-                        <div className="flex flex-col items-center justify-start p-0">
+                        <div className="flex flex-col items-center justify-start p-0" id={`${year}`}>
                             <div className="p-2">
                                 <span className='text-sm md:text-base bg-primary text-primary-content aspect-square p-1 flex justify-center items-center rounded-full'>
                                     {year}

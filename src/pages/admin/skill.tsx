@@ -3,6 +3,7 @@ import BasicLayout from '@/components/layout/BasicLayout';
 import Container from '@/components/layout/Container';
 import LayoutContent from '@/components/layout/LayoutContent';
 import PageTitle from '@/components/layout/PageTitle';
+import { ssrOfRequireAuth } from '@/server/ssr';
 import { SkillsEditor } from '@/skill/components/editor/SkillsEditor';
 import { Skill } from '@/skill/type';
 import { useMutation } from '@tanstack/react-query';
@@ -39,3 +40,5 @@ const AdminSkillPage: NextPage<Props> = ({ }) => {
     );
 }
 export default AdminSkillPage;
+
+export const getServerSideProps = ssrOfRequireAuth()

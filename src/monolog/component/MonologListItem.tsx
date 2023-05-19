@@ -209,8 +209,8 @@ const MonologListItem: FC<MonologListItemProps> = ({
                 <div className="form-control">
                     <InputMonolog
                         content={watch("content")}
+                        onChangeContent={(content) => setValue("content", content)}
                         inputSlugProps={register("slug")}
-                        inputContentProps={register("content")}
                         isValid={isValid}
                     />
                 </div>

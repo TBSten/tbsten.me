@@ -23,6 +23,11 @@ const AdminMenu: FC<AdminMenuProps> = () => {
                     {">"} 作ったもの
                 </Link>
             </div>
+            <div className="">
+                <Link href={`/admin/resource`} className='link link-primary text-xl'>
+                    {">"} 公開リソース
+                </Link>
+            </div>
         </div>
     );
 }
