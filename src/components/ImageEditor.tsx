@@ -62,7 +62,7 @@ const ImageEditor: FC<ImageEditorProps> = ({
                             {isUploading &&
                                 <Loading />
                             }
-                            <button className="btn btn-wide btn-secondary" onClick={() => upload()}>
+                            <button type="button" className="btn btn-wide btn-secondary" onClick={() => upload()}>
                                 アップロード
                             </button>
                         </div>
@@ -102,10 +102,10 @@ const ImageEditor: FC<ImageEditorProps> = ({
                     }
                 </div>
                 <div className="modal-action">
-                    <button className="btn" onClick={dialogProps.onClose}>
+                    <button type="button" className="btn" onClick={dialogProps.onClose}>
                         キャンセル
                     </button>
-                    <button className="btn btn-secondary min-w-[100px]" onClick={() => {
+                    <button type="button" className="btn btn-secondary min-w-[100px]" onClick={() => {
                         dialogProps.onClose()
                         if (tab === "upload") {
                             onChange(url)

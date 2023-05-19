@@ -18,7 +18,7 @@ import { useForm } from "react-hook-form";
 interface Props {
 }
 const AdminTop: NextPage<Props> = ({ }) => {
-    const { register, handleSubmit, watch, reset, setError, formState: { isValid } } = useForm<NewMonolog>({
+    const { register, handleSubmit, watch, setValue, reset, setError, formState: { isValid } } = useForm<NewMonolog>({
         resolver: zodResolver(NewMonologSchema),
         defaultValues: {
             slug: "",
@@ -73,10 +73,10 @@ const AdminTop: NextPage<Props> = ({ }) => {
                 monologList={monologList ?? null}
                 onNewDraft={handleNewDraft}
                 inputSlugProps={register("slug")}
-                inputContentProps={register("content")}
                 currentChangingSlug={currentChangingSlug ?? null}
                 currentDeletingSlug={currentDeletingSlug ?? null}
                 content={watch("content")}
+                onChangeDraftContent={(content) => setValue("content", content)}
             />
         </BasicLayout>
     );
@@ -90,7 +90,6 @@ interface MonologSectionProps {
     isAddingMonolog: boolean
     onNewDraft: () => void
     inputSlugProps: JSX.IntrinsicElements["input"]
-    inputContentProps: JSX.IntrinsicElements["textarea"]
     isValid: boolean
     monologList: Monolog[] | null
     currentChangingSlug: string | null
@@ -98,16 +97,17 @@ interface MonologSectionProps {
     onChange: (slug: string, input: UpdateMonolog) => void
     onDelete: (slug: string) => void
     content: string
+    onChangeDraftContent: (content: string) => void
 }
 const MonologSection: FC<MonologSectionProps> = ({
     isAddingMonolog,
     onNewDraft,
-    inputSlugProps, inputContentProps: inputDraftProps,
+    inputSlugProps,
     isValid,
     monologList,
     currentChangingSlug, currentDeletingSlug,
     onChange, onDelete,
-    content,
+    content, onChangeDraftContent,
 }) => {
     return (
         <>
@@ -119,7 +119,8 @@ const MonologSection: FC<MonologSectionProps> = ({
                     <LoadingFallback isLoading={isAddingMonolog}>
                         <form onSubmit={onNewDraft}>
                             <InputMonolog
-                                {...{ content, inputContentProps: inputDraftProps, inputSlugProps, isValid }}
+                                {...{ content, inputSlugProps, isValid }}
+                                onChangeContent={onChangeDraftContent}
                                 action={
                                     <button type="submit" className='btn btn-primary ml-4 md:ml-0'>
                                         下書き

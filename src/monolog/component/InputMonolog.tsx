@@ -1,17 +1,30 @@
 import Dialog, { useDialog } from "@/components/Dialog";
+import ImageEditor, { useImageEditor } from "@/components/ImageEditor";
 import MarkdownText from "@/components/MarkdownText";
-import { FC, ReactNode, useState } from "react";
+import { FC, ReactNode, useRef, useState } from "react";
 
 interface InputMonologProps {
     content: string
     inputSlugProps: JSX.IntrinsicElements["input"]
-    inputContentProps: JSX.IntrinsicElements["textarea"]
+    onChangeContent: (content: string) => void
     isValid: boolean
     action?: ReactNode
 }
-const InputMonolog: FC<InputMonologProps> = ({ content, inputSlugProps, inputContentProps, isValid, action, }) => {
+const InputMonolog: FC<InputMonologProps> = ({ content, onChangeContent, inputSlugProps, isValid, action, }) => {
     const previewDialog = useDialog()
     const [showSlug, setShowSlug] = useState(false)
+    const textareaRef = useRef<HTMLTextAreaElement>(null)
+    const imageEditor = useImageEditor()
+    const handleSelectImage = (src: string | null) => {
+        if (src === null) return
+        const textarea = textareaRef.current
+        if (!textarea) return
+        const cursorPos = textarea.selectionStart
+        const newContent = content.substring(0, cursorPos) + `![](${src})` + content.substring(cursorPos, content.length) + "\n"
+        onChangeContent(newContent)
+        textarea.selectionStart = cursorPos + 4 + (src.length ?? 0) + 1
+        textarea.focus()
+    }
     return (
         <div>
             <div className="my-2 flex gap-1 flex-col md:flex-row md:items-center">
@@ -20,10 +33,16 @@ const InputMonolog: FC<InputMonologProps> = ({ content, inputSlugProps, inputCon
                     placeholder='内容'
                     className="textarea textarea-bordered flex-grow resize-y"
                     rows={content.split("\n").length + 3}
-                    {...inputContentProps}
+                    ref={textareaRef}
+                    value={content}
+                    onChange={e => onChangeContent(e.target.value)}
                 ></textarea>
                 <div className="flex flex-col gap-1">
-                    {/*  */}
+                    {/* 画像 */}
+                    <button type="button" className="btn btn-info" onClick={() => imageEditor.show()}>
+                        画像
+                    </button>
+                    {/* slug */}
                     {showSlug ?
                         <input
                             placeholder="slug"
@@ -61,6 +80,12 @@ const InputMonolog: FC<InputMonologProps> = ({ content, inputSlugProps, inputCon
                     <button type="button" className="btn" onClick={previewDialog.hide}>閉じる</button>
                 </div>
             </Dialog>
+
+            <ImageEditor
+                src={""}
+                onChange={handleSelectImage}
+                {...imageEditor.imageEditorProps}
+            />
         </div>
     );
 }
