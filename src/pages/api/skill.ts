@@ -3,6 +3,10 @@ import { getSkills, saveSkills } from "@/skill/server";
 import { SkillSchema } from "@/skill/type";
 
 export default apiRouteOf({
+    cors: {
+        origin: "*",
+        method: ["GET"],
+    },
     async onGet({ req, res }) {
         res.json(await getSkills())
     },

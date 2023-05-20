@@ -4,6 +4,10 @@ import { apiRouteOf } from "@/server/apiRoute";
 import { z } from "zod";
 
 export default apiRouteOf({
+    cors: {
+        origin: "*",
+        method: ["GET"],
+    },
     async onGet({ req, res, invalidRequest }) {
         const params = new URLSearchParams(req.query as Record<string, string>)
         const input = z.object({
