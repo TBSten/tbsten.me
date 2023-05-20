@@ -7,6 +7,7 @@ import PageHead from '@/components/PageHead';
 import BasicLayout from '@/components/layout/BasicLayout';
 import LayoutContent from '@/components/layout/LayoutContent';
 import PageTitle from '@/components/layout/PageTitle';
+import { createMarkdownCache } from '@/markdown/cache';
 import { useMonologList } from '@/monolog/client';
 import { getMonologList } from '@/monolog/server';
 import { Monolog } from '@/monolog/type';
@@ -15,7 +16,6 @@ import dayjs from 'dayjs';
 import { GetServerSideProps, NextPage } from 'next';
 import { FC, useEffect, useState } from 'react';
 import { BiCopy } from 'react-icons/bi';
-import markdownToHtml from 'zenn-markdown-html';
 
 interface Props {
     monologList: Monolog[]
@@ -63,14 +63,10 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
         sortBy: "publishAt",
         filter: "onlyPublished",
     })
-    const markdowns = monologList.reduce((mds, monolog) => {
-        mds[monolog.content] = markdownToHtml(monolog.content)
-        return mds
-    }, {} as Record<string, string>)
     return {
         props: {
             monologList,
-            markdowns,
+            markdowns: createMarkdownCache(...monologList.map(monolog => monolog.content)),
         }
     }
 }
