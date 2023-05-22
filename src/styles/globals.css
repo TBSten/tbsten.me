@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+html,
+body,
+#__next {
+  /* @apply w-full h-full overflow-auto; */
+  width: 100%;
+  height: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 4rem;
+}
+
+body {
+  /* overscroll-behavior: contain; */
+}
+
+.twemoji {
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+}
+
+svg {
+  display: inline
+}
+
+/* daisy ui */
+
+.btn {
+  @apply font-dot normal-case max-w-full;
+}
+
+@keyframes float {
+  0% {
+    @apply shadow;
+  }
+
+  100% {
+    @apply shadow-none;
+
+  }
+}
+
+.znc.compact * {
+  margin: 0 !important;
+}

@@ -1,0 +1,73 @@
+.animate-icon {
+    animation: bounceX 0.75s forwards 1 linear;
+    transform-origin: center center;
+}
+
+@keyframes bounceX {
+    16% {
+        transform: rotate(0deg);
+    }
+
+    28% {
+        transform: rotate(-10deg);
+    }
+
+    40% {
+        transform: rotate(10deg);
+    }
+
+    48% {
+        transform: rotate(-7deg);
+    }
+
+    60% {
+        transform: rotate(7deg);
+    }
+
+    72% {
+        transform: rotate(-2deg);
+    }
+
+    80% {
+        transform: rotate(2deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+
+    0% {
+        opacity: 1.0;
+    }
+
+    20% {
+        opacity: 0.2;
+    }
+
+    40% {
+        opacity: 0.8;
+    }
+
+    60% {
+        opacity: 0.2;
+    }
+
+    80% {
+        opacity: 0.8;
+    }
+
+    100% {
+        opacity: 1.0;
+    }
+}
+
+.balloon::before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -15px;
+    border: 15px solid transparent;
+    border-top: 15px solid;
+    @apply border-t-inherit;
+}
