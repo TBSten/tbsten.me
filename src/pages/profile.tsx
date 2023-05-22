@@ -57,13 +57,21 @@ const ProfilePage: NextPage<Props> = ({ }) => {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>好きな言葉</th>
+                                    <th rowSpan={3}>言葉</th>
                                     <td>「ぼーとして没頭して」</td>
                                     <td>真逆の意味の言葉で韻を踏むって最高かよ...</td>
                                 </tr>
                                 <tr>
-                                    <th></th>
-                                    <td>愛知県住み 愛知生まれ 愛知育ち</td>
+                                    <td>「◯◯み」</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>「◯◯☆サムライ」</td>
+                                    <td>アフロサムライに あやかって何でもかんでもサムライってつけがち</td>
+                                </tr>
+                                <tr>
+                                    <th>愛知県民</th>
+                                    <td>愛知生まれ 愛知育ち 愛知県住み</td>
                                     <td></td>
                                 </tr>
                                 <tr>
