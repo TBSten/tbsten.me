@@ -1,17 +1,23 @@
 import { useHash } from '@/client/hash';
 import Center from '@/components/Center';
+import Dialog, { useDialog } from '@/components/Dialog';
 import Loading from '@/components/Loading';
+import MarkdownText from '@/components/MarkdownText';
 import PageHead from '@/components/PageHead';
 import BasicLayout from '@/components/layout/BasicLayout';
 import LayoutContent from '@/components/layout/LayoutContent';
 import PageTitle from '@/components/layout/PageTitle';
+import { md } from '@/markdown/shortcut';
 import { useSkills } from '@/skill/client';
 import { SkillCard, SkillCardPrimaryTags } from '@/skill/components/SkillCard';
 import { getSkills } from '@/skill/server';
 import { Skill } from '@/skill/type';
 import classNames from 'classnames';
+import dedent from 'dedent-js';
 import { GetServerSideProps, NextPage } from 'next';
 import React, { FC, ReactNode, useEffect, useMemo, useState } from 'react';
+
+const apiRoute = "/api/skill"
 
 interface Props {
     skills: Skill[]
@@ -28,6 +34,8 @@ const SkillsPage: NextPage<Props> = ({ skills: defaultSkills }) => {
             }, 50)
         }
     }, [hash])
+
+    const apiDialog = useDialog()
     return (
         <>
             <SkillsHead />
@@ -53,6 +61,13 @@ const SkillsPage: NextPage<Props> = ({ skills: defaultSkills }) => {
                         </div>
                     </Center>
                 </LayoutContent>
+                <LayoutContent className='bg-base-200'>
+                    <div className="flex justify-end">
+                        <button className="btn btn-outline btn-primary" onClick={apiDialog.show}>
+                            APIを表示
+                        </button>
+                    </div>
+                </LayoutContent>
 
                 {tab === "all" &&
                     <AllSkillsSection
@@ -68,6 +83,32 @@ const SkillsPage: NextPage<Props> = ({ skills: defaultSkills }) => {
 
                 <div className="divider"></div>
             </BasicLayout>
+            <Dialog {...apiDialog.dialogProps}>
+                <div className="text-xl font-bold">
+                    公開API
+                </div>
+                <div className="">
+                    <MarkdownText
+                        markdown={dedent`
+                                # [${apiRoute}](${apiRoute})
+                                
+                                ${md.cb("shell:curl", `
+                                curl https://tbsten.me${apiRoute}
+                                `)}
+                                ${md.cb("js:JavaScript", `
+                                const skills = await fetch("https://tbsten.me${apiRoute}")
+                                    .then(r=>r.json())
+                                `)}
+                                
+                                `}
+                    />
+                </div>
+                <div className="flex justify-end">
+                    <button className="btn" onClick={apiDialog.hide}>
+                        閉じる
+                    </button>
+                </div>
+            </Dialog>
         </>
     );
 }
