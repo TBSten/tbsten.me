@@ -93,10 +93,30 @@ const slug = dedent`
 
 ### レスポンス形式
 
+- 独り言オブジェクト
+
 :::details リクエスト例
+${md.codeBlock("shell:curlでのリクエスト例1", `
+curl https://tbsten.me/api/monolog/phrase-milabo-1
+`)}
+${md.codeBlock("js:JavaScriptでのリクエスト例", `
+const monolog = await fetch("https://tbsten.me/api/monolog/phrase-milabo-1")
+    .then(r=>r.json())
+`)}
 :::
 
 :::details レスポンス例
+${md.cb(`json`, `
+{
+    "slug": "phrase-milabo-1",
+    "content": "変わってくから 私ねもっと\\n\\n> [ずっと真夜中でいいのに。](http://tbsten.me/likes#%E3%81%9A%E3%81%A3%E3%81%A8%E7%9C%9F%E5%A4%9C%E4%B8%AD%E3%81%A7%E3%81%84%E3%81%84%E3%81%AE%E3%81%AB%E3%80%82) 「MILABO」",
+    "createAt": 1683811233994,
+    "updateAt": 1683811233994,
+    "isPublished": true,
+    "publishAt": 1683828392624,
+    "random": 0.45503922617166825
+}
+`)}
 :::
 `
 
@@ -105,25 +125,42 @@ const slug = dedent`
 const random = dedent`
 # GET [${md.c("/api/monolog/random")}](/api/monolog/random)
 
-:::message
-作成中
-:::
-
+独り言をランダムで1つ選びます。
+**何も選ばれない(nullになる)** こともあります。
 
 ### リクエスト形式
 
-|クエリ|説明|
-|---|---|
-|${md.c(`slug`)}|slugを指定します。|
+なし
+
+(将来的にnullを返さないように指定するパラメータを付与する予定)
 
 ### レスポンス形式
 
 :::details リクエスト例
-
+${md.codeBlock("shell:curlでのリクエスト例1", `
+curl https://tbsten.me/api/monolog/random
+`)}
+${md.codeBlock("js:JavaScriptでのリクエスト例", `
+const monolog = await fetch("https://tbsten.me/api/monolog/random")
+    .then(r=>r.json())
+`)}
 :::
 
 :::details レスポンス例
-
+${md.cb(`json:レスポンス例1`, `
+{
+    "slug": "phrase-milabo-1",
+    "content": "変わってくから 私ねもっと\\n\\n> [ずっと真夜中でいいのに。](http://tbsten.me/likes#%E3%81%9A%E3%81%A3%E3%81%A8%E7%9C%9F%E5%A4%9C%E4%B8%AD%E3%81%A7%E3%81%84%E3%81%84%E3%81%AE%E3%81%AB%E3%80%82) 「MILABO」",
+    "createAt": 1683811233994,
+    "updateAt": 1683811233994,
+    "isPublished": true,
+    "publishAt": 1683828392624,
+    "random": 0.45503922617166825
+}
+`)}
+${md.cb(`json:レスポンス例2`, `
+null
+`)}
 :::
 
 `
