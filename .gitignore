@@ -35,3 +35,7 @@ yarn-error.log*
 next-env.d.ts
 
 secret/
+
+# sitemap
+public/sitemap-0.xml
+public/sitemap.xml
