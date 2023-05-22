@@ -3,6 +3,7 @@ import Link from "next/link";
 import { FC } from "react";
 import { BsStarFill } from "react-icons/bs";
 import { MdOutlineArticle } from "react-icons/md";
+import { VscJson } from "react-icons/vsc";
 import Center from "../Center";
 import Drawer, { DrawerContent, useDrawer } from "../Drawer";
 
@@ -69,6 +70,14 @@ const PopupMenu: FC<PopupMenuProps> = () => {
                                     😗
                                 </span>
                                 独り言
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/about-api" className="btn w-full btn-ghost justify-start">
+                                <span className="mr-2 text-secondary">
+                                    <VscJson />
+                                </span>
+                                公開API
                             </Link>
                         </li>
                         <div className="divider" />

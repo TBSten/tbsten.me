@@ -44,6 +44,9 @@ const Footer: FC<FooterProps> = () => {
                 <Link href="/monolog" className="block btn btn-link">
                     独り言
                 </Link>
+                <Link href="/about-api" className="block btn btn-link">
+                    公開API
+                </Link>
             </div>
             <Center className="my-4">
                 <Link href="/" className="btn btn-wide btn-ghost text-2xl">
