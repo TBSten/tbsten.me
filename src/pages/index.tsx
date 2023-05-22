@@ -147,10 +147,11 @@ const Hero: FC<HeroProps> = () => {
             )}
             src={knocked ? TBStenDeadImg : TBStenImg}
             alt="TBStenのアイコン"
-            width={500}
-            height={500}
+            width={250}
+            height={250}
             onAnimationEnd={() => setHittingDamage(null)}
             priority
+            quality={100}
             onLoad={() => setIsLooadedImage(true)}
           />
           <div className="absolute -bottom-6 left-0 right-0 w-full px-4" >

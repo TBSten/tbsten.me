@@ -1,4 +1,4 @@
-import TBStenImg from "@/../public/tbsten.png";
+import TBStenImg from "@/../public/tbsten100x100.png";
 import Image from "next/image";
 import Link from "next/link";
 import { FC, ReactNode } from "react";

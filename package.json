@@ -24,6 +24,7 @@
     "classnames": "^2.3.2",
     "daisyui": "^2.51.5",
     "dayjs": "^1.11.7",
+    "dedent-js": "^1.0.1",
     "eslint": "8.39.0",
     "eslint-config-next": "13.3.1",
     "framer-motion": "^10.12.7",

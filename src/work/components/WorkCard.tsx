@@ -1,4 +1,4 @@
-import TBStenImg from "@/../public/tbsten.png";
+import TBStenImg from "@/../public/tbsten250x250.png";
 import Center from "@/components/Center";
 import Image from "next/image";
 import Link from "next/link";
