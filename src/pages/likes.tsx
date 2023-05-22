@@ -21,6 +21,7 @@ const LikesPage: NextPage<Props> = ({ }) => {
                 <ZtmySection />
                 <EngineerChannel />
                 <HitokaraSection />
+                <OthersSection />
             </BasicLayout>
         </>
     );
@@ -124,9 +125,6 @@ const ZtmySection: FC<ZtmySectionProps> = () => {
                     という楽曲。<br />
                     ミュージックビデオ公開の16秒後にYoutubeのおすすめに出てきて運命を感じた。
                 </p>
-                <div className="w-full flex overflow-x-auto gap-2 py-4 md:p-4">
-                    <iframe className='flex-shrink-0' width="560" height="315" src="https://www.youtube.com/embed/ZUwaudw8ht0" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
-                </div>
                 <p>
                     気付けばファン歴を重ねて、アフロ☆サムライのファンに。
                     推し曲は全て。
@@ -218,3 +216,50 @@ const HitokaraSection: FC<HitokaraSectionProps> = () => {
         </Section>
     );
 }
+
+
+interface OthersSectionProps {
+}
+const OthersSection: FC<OthersSectionProps> = () => {
+    return (
+        <Section>
+            <SectionTitle>
+                その他
+            </SectionTitle>
+            <div className="md:pl-4 overflow-x-auto">
+                <table className="table table-compact md:table-normal">
+                    <tbody>
+                        <tr>
+                            <th>音楽</th>
+                            <td>
+                                ヨルシカ,
+                                ネクライトーキー,
+                                Groovy groove,
+                                よよよちゃん,
+                                セカオワ,
+                                優里,
+                                ...
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>お笑い</th>
+                            <td>
+                                NON STYLE,
+                                どぶろっく
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>特撮</th>
+                            <td>
+                                ウルトラシリーズ ,
+                                555 ,
+                                W
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </Section>
+    );
+}
+
