@@ -1,5 +1,6 @@
 import MarkdownCacheProvider from '@/components/MarkdownCacheProvider';
 import MarkdownText from '@/components/MarkdownText';
+import PageHead from '@/components/PageHead';
 import BasicLayout from '@/components/layout/BasicLayout';
 import LayoutContent from '@/components/layout/LayoutContent';
 import PageTitle from '@/components/layout/PageTitle';
@@ -15,6 +16,7 @@ interface Props {
 const AboutApiPage: NextPage<Props> = ({ markdowns }) => {
     return (
         <>
+            <AboutApiHead />
             <MarkdownCacheProvider markdowns={markdowns}>
                 <BasicLayout>
                     <PageTitle>
@@ -74,6 +76,18 @@ export const getStaticProps: GetStaticProps<Props> = async (ctx) => {
             markdowns: createMarkdownCache(apiDetail),
         },
     }
+}
+
+interface AboutApiHeadProps {
+}
+const AboutApiHead: FC<AboutApiHeadProps> = () => {
+    return (
+        <PageHead
+            path='/about-api'
+            title='公開API | TBSten'
+            description='本サイトで使用しているREST APIを一部公開しています。'
+        />
+    );
 }
 
 interface ApiDetailProps {
