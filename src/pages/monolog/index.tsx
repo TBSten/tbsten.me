@@ -1,5 +1,6 @@
 import { useCopy } from '@/client/copy';
 import { useHash } from '@/client/hash';
+import Dialog, { useDialog } from '@/components/Dialog';
 import Loading from '@/components/Loading';
 import MarkdownCacheProvider from '@/components/MarkdownCacheProvider';
 import MarkdownText from '@/components/MarkdownText';
@@ -8,14 +9,19 @@ import BasicLayout from '@/components/layout/BasicLayout';
 import LayoutContent from '@/components/layout/LayoutContent';
 import PageTitle from '@/components/layout/PageTitle';
 import { createMarkdownCache } from '@/markdown/cache';
+import { md } from '@/markdown/shortcut';
 import { useMonologList } from '@/monolog/client';
 import { getMonologList } from '@/monolog/server';
 import { Monolog } from '@/monolog/type';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
+import dedent from 'dedent-js';
 import { GetServerSideProps, NextPage } from 'next';
 import { FC, useEffect, useState } from 'react';
 import { BiCopy } from 'react-icons/bi';
+
+const apiRouteIndex = "/api/monolog"
+const apiRouteRandom = "/api/monolog/random"
 
 interface Props {
     monologList: Monolog[]
@@ -30,6 +36,7 @@ const MonologListPage: NextPage<Props> = ({ monologList: defaultMonologList, mar
 
     const hash = useHash()
 
+    const apiDialog = useDialog()
     return (
         <>
             <MonologListHead />
@@ -38,6 +45,13 @@ const MonologListPage: NextPage<Props> = ({ monologList: defaultMonologList, mar
                     <PageTitle>
                         独り言
                     </PageTitle>
+                    <LayoutContent>
+                        <div className='flex justify-end'>
+                            <button className="btn btn-outline btn-primary" onClick={apiDialog.show}>
+                                APIを表示
+                            </button>
+                        </div>
+                    </LayoutContent>
                     <LayoutContent>
                         {isLoading &&
                             <Loading />
@@ -51,6 +65,42 @@ const MonologListPage: NextPage<Props> = ({ monologList: defaultMonologList, mar
                         )}
                     </LayoutContent>
                     <div className="h-[50vh]" />
+                    <Dialog {...apiDialog.dialogProps}>
+                        <div className="text-xl font-bold">
+                            公開API
+                        </div>
+                        <div className="">
+                            <MarkdownText
+                                markdown={dedent`
+                                # [${apiRouteIndex}](${apiRouteIndex})
+
+                                ${md.cb("shell:curl", `
+                                curl https://tbsten.me${apiRouteIndex}
+                                `)}
+                                ${md.cb("js:JavaScript", `
+                                const skills = await fetch("https://tbsten.me${apiRouteIndex}")
+                                    .then(r=>r.json())
+                                `)}
+
+                                # [${apiRouteRandom}](${apiRouteRandom})
+                                
+                                ${md.cb("shell:curl", `
+                                curl https://tbsten.me${apiRouteRandom}
+                                `)}
+                                ${md.cb("js:JavaScript", `
+                                const skills = await fetch("https://tbsten.me${apiRouteRandom}")
+                                    .then(r=>r.json())
+                                `)}
+
+                                `}
+                            />
+                        </div>
+                        <div className="flex justify-end">
+                            <button className="btn" onClick={apiDialog.hide}>
+                                閉じる
+                            </button>
+                        </div>
+                    </Dialog>
                 </MarkdownCacheProvider>
             </BasicLayout>
         </>
