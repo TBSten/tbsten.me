@@ -1,19 +1,26 @@
+import Dialog, { useDialog } from '@/components/Dialog';
+import MarkdownText from '@/components/MarkdownText';
 import PageHead from '@/components/PageHead';
 import BasicLayout from '@/components/layout/BasicLayout';
 import LayoutContent from '@/components/layout/LayoutContent';
 import PageTitle from '@/components/layout/PageTitle';
+import { md } from '@/markdown/shortcut';
 import { useWorks } from '@/work/client';
 import WorkCard from '@/work/components/WorkCard';
 import { getWorks } from '@/work/server';
 import { Work } from '@/work/type';
+import dedent from 'dedent-js';
 import { GetServerSideProps, NextPage } from 'next';
 import { FC } from 'react';
+
+const apiRoute = "/api/work"
 
 interface Props {
     works: Work[]
 }
 const WorksPage: NextPage<Props> = ({ works: defaultWorks }) => {
     const { works } = useWorks({ default: defaultWorks })
+    const apiDialog = useDialog()
     return (
         <>
             <WorksHead />
@@ -21,6 +28,13 @@ const WorksPage: NextPage<Props> = ({ works: defaultWorks }) => {
                 <PageTitle>
                     作ったもの
                 </PageTitle>
+                <LayoutContent>
+                    <div className="flex justify-end">
+                        <button className="btn btn-outline btn-primary" onClick={apiDialog.show}>
+                            APIを表示
+                        </button>
+                    </div>
+                </LayoutContent>
                 <LayoutContent>
                     <div className="flex flex-row">
                         <div className="px-4 flex flex-col ">
@@ -41,6 +55,32 @@ const WorksPage: NextPage<Props> = ({ works: defaultWorks }) => {
                         </div>
                     </div>
                 </LayoutContent>
+                <Dialog {...apiDialog.dialogProps}>
+                    <div className="text-xl font-bold">
+                        公開API
+                    </div>
+                    <div className="">
+                        <MarkdownText
+                            markdown={dedent`
+                                # [${apiRoute}](${apiRoute})
+                                
+                                ${md.cb("shell:curl", `
+                                curl https://tbsten.me${apiRoute}
+                                `)}
+                                ${md.cb("js:JavaScript", `
+                                const skills = await fetch("https://tbsten.me${apiRoute}")
+                                    .then(r=>r.json())
+                                `)}
+                                
+                                `}
+                        />
+                    </div>
+                    <div className="flex justify-end">
+                        <button className="btn" onClick={apiDialog.hide}>
+                            閉じる
+                        </button>
+                    </div>
+                </Dialog>
             </BasicLayout>
         </>
     );
