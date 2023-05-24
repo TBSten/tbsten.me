@@ -3,7 +3,9 @@ import GithubIcon from '@/components/icon/GithubIcon';
 import BasicLayout from '@/components/layout/BasicLayout';
 import LayoutContent from '@/components/layout/LayoutContent';
 import PageTitle from '@/components/layout/PageTitle';
-import { NextPage } from 'next';
+import { logPageAccess } from '@/secret/server';
+import { ssrOf } from '@/server/ssr';
+import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 
@@ -166,3 +168,14 @@ const SecretPage: NextPage<Props> = (props) => {
     );
 }
 export default SecretPage;
+
+export const getServerSideProps: GetServerSideProps<Props> = ssrOf({
+    hanlder: async ({ req }) => {
+        await logPageAccess({
+            path: "/secret",
+            ip: req.socket.remoteAddress ?? null,
+            accessAt: new Date().toUTCString(),
+        })
+        return { props: {} }
+    }
+})

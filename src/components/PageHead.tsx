@@ -33,7 +33,7 @@ const PageHead: FC<PageHeadProps> = ({
             <meta property="og:image:height" content={String(imageHeight)} />
 
             {/* twitter card */}
-            <meta name="twitter:card" content="summary_card" />
+            <meta name="twitter:card" content="summary_large_image" />
             <meta name="twitter:site" content="@tbs__ten" />
             <meta name="twitter:domain" content="tbsten.me" />
             <meta name="twitter:title" content={title} />
