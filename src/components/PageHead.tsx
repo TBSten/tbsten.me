@@ -11,7 +11,7 @@ interface PageHeadProps {
 }
 const PageHead: FC<PageHeadProps> = ({
     path, title = "TBSten", description = "TBStenのポートフォリオサイトです。",
-    image = "https://tbsten.me/tbsten.png",
+    image = "https://tbsten.me/tbsten500x500.png",
     imageWidth = 2048, imageHeight = 2048
 }) => {
     return (
