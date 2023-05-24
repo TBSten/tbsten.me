@@ -3,7 +3,7 @@ import GithubIcon from '@/components/icon/GithubIcon';
 import BasicLayout from '@/components/layout/BasicLayout';
 import LayoutContent from '@/components/layout/LayoutContent';
 import PageTitle from '@/components/layout/PageTitle';
-import { logPageAccess } from '@/secret/server';
+import { logPageAccess } from '@/log/server';
 import { ssrOf } from '@/server/ssr';
 import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
