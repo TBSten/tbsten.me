@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Work, WorkSchema } from "../type";
 
 export function useWorks({ default: defalutWorks }: { default?: Work[] } = {}) {
@@ -9,8 +9,15 @@ export function useWorks({ default: defalutWorks }: { default?: Work[] } = {}) {
             .then(r => WorkSchema.array().parse(r)),
         initialData: defalutWorks,
     })
+    const { mutateAsync: save, isLoading: isSaving } = useMutation({
+        mutationFn: (works: Work[]) => fetch("/api/work", {
+            method: "PUT",
+            body: JSON.stringify(works),
+        }),
+    })
     return {
         works,
         isLoading,
+        save, isSaving,
     } as const
 }
