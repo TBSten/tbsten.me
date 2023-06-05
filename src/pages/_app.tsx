@@ -3,7 +3,6 @@ import '@/styles/globals.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SessionProvider } from "next-auth/react";
 import type { AppProps } from 'next/app';
-import Twemoji from 'react-twemoji';
 
 import 'zenn-content-css';
 
@@ -31,11 +30,11 @@ export default function App({
       `}</style>
 
       <SessionProvider session={session}>
-        <Twemoji options={{ className: "twemoji" }}>
-          <QueryClientProvider client={queryClient}>
-            <Component {...pageProps} />
-          </QueryClientProvider>
-        </Twemoji>
+        {/* <Twemoji options={{ className: "twemoji" }}> */}
+        <QueryClientProvider client={queryClient}>
+          <Component {...pageProps} />
+        </QueryClientProvider>
+        {/* </Twemoji> */}
       </SessionProvider>
 
     </>
