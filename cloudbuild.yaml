@@ -26,5 +26,7 @@ steps:
   - 'TZ=Asia/Tokyo'
   - '--service-account'
   - 'web-server@tbsten-me.iam.gserviceaccount.com'
+  - '--min-instances'
+  - '1'
 images:
 - 'gcr.io/$PROJECT_ID/web-server:$COMMIT_SHA'
