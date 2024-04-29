@@ -6,7 +6,8 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "*",
+        hostname: "storage.googleapis.com",
+        pathname: "/tbsten-me-public-content/**"
       },
     ]
   }
